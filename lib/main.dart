@@ -1,5 +1,4 @@
 import 'package:admin_app/modules/home%20screen/admin_Home.dart';
-import 'package:admin_app/modules/login%20screen/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
