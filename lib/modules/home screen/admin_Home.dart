@@ -8,7 +8,6 @@ import '../add students data screen/adminStudents.dart';
 import '../login screen/login.dart';
 import '../my account screen/My_account.dart';
 import '../search screen/searchPage.dart';
-
 class AdminHome extends StatefulWidget {
 
   @override
