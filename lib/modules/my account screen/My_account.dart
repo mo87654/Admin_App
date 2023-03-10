@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:admin_app/modules/login%20screen/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../shared/component/SignoutMessage.dart';
 import '../../shared/component/colors.dart';
 import '../change password screen/change_password.dart';
 import '../help screen/help_screen.dart';
@@ -169,7 +172,9 @@ class _MyAccountState extends State<MyAccount> {
                 ),
 
                 ListTile(
-                  leading: const Icon(Icons.logout),
+                  leading:  IconButton(
+                    onPressed: (){},
+                    icon:const Icon(Icons.logout),),
                   title: const Text('Log Out',
                     style: TextStyle(
                         fontSize: 17
@@ -177,8 +182,20 @@ class _MyAccountState extends State<MyAccount> {
                   ),
 
                   onTap: () {
-                    Navigator.pop(context);
-                  },
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => SignOutMessage(
+                        onSignOut: () async{
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login(),));
+                          // Close the dialog
+                        },
+                      ),
+                    );
+                      //
+                    },
                 ),
               ],
             ),

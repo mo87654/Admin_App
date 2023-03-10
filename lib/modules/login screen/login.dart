@@ -16,7 +16,11 @@ class _LoginState extends State<Login> {
   bool showpassword = true;
   //String? selectedItem;
   @override
+  String? selectedItem = 'User';
+
+
   FirebaseAuth instance = FirebaseAuth.instance;
+
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
       key: loginkey,
