@@ -31,23 +31,23 @@ class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: color(),
-        leading:  Builder(
-            builder: (context) {
-              return IconButton(
-                icon: const Icon(
-                    Icons.menu
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
+        appBar: AppBar(
+          backgroundColor: color(),
+          leading:  Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: const Icon(
+                      Icons.menu
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
                   },
 
-              );
-            }
+                );
+              }
+          ),
+          title: Text ('My account'),
         ),
-        title: Text ('My account'),
-      ),
         drawer:   SafeArea(
           child: Drawer(
             child: Column(
@@ -194,8 +194,8 @@ class _MyAccountState extends State<MyAccount> {
                         },
                       ),
                     );
-                      //
-                    },
+                    //
+                  },
                 ),
               ],
             ),
@@ -203,119 +203,119 @@ class _MyAccountState extends State<MyAccount> {
 
           ),
         ),
-      body: ListView(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        body: ListView(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
 
-            children: [
-              Container(
-               height: 260 ,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  alignment: AlignmentDirectional.bottomCenter,
+              children: [
+                Container(
+                  height: 260 ,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: AlignmentDirectional.bottomCenter,
 
-                  children:<Widget> [
-                    Align(
+                    children:<Widget> [
+                      Align(
 
-                      alignment: AlignmentDirectional.topStart,
-                      child: Container(child: Image.asset('assets/images/background2.jpg'),
-                        width: double.infinity,
-                        height: 200,
+                        alignment: AlignmentDirectional.topStart,
+                        child: Container(child: Image.asset('assets/images/background2.jpg'),
+                          width: double.infinity,
+                          height: 200,
+                        ),
                       ),
-                    ),
 
-                    Stack(
-                        alignment: AlignmentDirectional.bottomEnd,
-                     clipBehavior: Clip.none,
-                      children:<Widget>[
-                    CircleAvatar(
-                        radius: 64,
-                        backgroundImage: _imageFile == null ?
-                         AssetImage("assets/images/User3.jpg")
-                            : FileImage(File(_imageFile!.path)) as ImageProvider),
+                      Stack(
+                          alignment: AlignmentDirectional.bottomEnd,
+                          clipBehavior: Clip.none,
+                          children:<Widget>[
+                            CircleAvatar(
+                                radius: 64,
+                                backgroundImage: _imageFile == null ?
+                                AssetImage("assets/images/User3.jpg")
+                                    : FileImage(File(_imageFile!.path)) as ImageProvider),
 
-                    CircleAvatar(
-                      backgroundColor:  const Color(0xff515281),
-                      radius: 16,
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (context) => bottomSheet(),
-                            );
-                          });
-                        },
-                        child: Icon(Icons.edit, color: white),
+                            CircleAvatar(
+                              backgroundColor:  const Color(0xff515281),
+                              radius: 16,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (context) => bottomSheet(),
+                                    );
+                                  });
+                                },
+                                child: Icon(Icons.edit, color: white),
+                              ),
+                            ),
+                          ]
+
                       ),
-                    ),
-          ]
-
-          ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-
-          ),
-
-
-
-
-
-          Padding(
-            padding: const EdgeInsets.only(top: 25, left: 15),
-            child: Column(
-
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children:const [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 25.0),
-                    child: Text('User name',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 25.0),
-                    child: Text('Student Name',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-
-
-                      ),
-
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 25.0),
-                    child: Text('Email Address',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-
-
-                    ),
-                  )
-
-                ]
+              ],
 
             ),
-          ),
 
 
 
-        ],
 
-      )
+
+            Padding(
+              padding: const EdgeInsets.only(top: 25, left: 15),
+              child: Column(
+
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:const [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: Text('User name',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: Text('Student Name',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+
+
+                        ),
+
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: Text('Email Address',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+
+                      ),
+                    )
+
+                  ]
+
+              ),
+            ),
+
+
+
+          ],
+
+        )
     );
 
 
@@ -412,4 +412,3 @@ class _MyAccountState extends State<MyAccount> {
     }
   }
 }
-
