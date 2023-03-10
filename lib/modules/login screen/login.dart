@@ -1,8 +1,6 @@
-
 import 'package:admin_app/modules/home%20screen/admin_Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../forgetPassword screens/forgetPassword1.dart';
 
 class Login extends StatefulWidget {
@@ -10,45 +8,18 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-
 class _LoginState extends State<Login> {
-  var formkey = GlobalKey<FormState>();
   var loginkey = GlobalKey<ScaffoldMessengerState>();
+  var formkey = GlobalKey<FormState>();
   var emailcontroller = TextEditingController();
   var passwordcontroller = TextEditingController();
   bool showpassword = true;
-  bool isLoading = false;
-
   //String? selectedItem;
   @override
   String? selectedItem = 'User';
 
-  signin() async {
-    if (formkey.currentState!.validate()) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-          email: emailcontroller.text,
-          password: passwordcontroller.text,);
 
-        return userCredential;
-
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'invalid-email') {
-          isLoading =false;
-          loginkey.currentState?.showSnackBar(
-              SnackBar(content: Text(e.message ?? "")));
-        } else if (e.code == 'wrong-password') {
-          isLoading =false;
-          loginkey.currentState?.showSnackBar(
-              SnackBar(content: Text(e.message ?? "")));
-        }
-      }catch (e){
-        return e.toString();
-      }
-    }
-  }
-
+  FirebaseAuth instance = FirebaseAuth.instance;
 
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
@@ -73,11 +44,11 @@ class _LoginState extends State<Login> {
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(
-                      start: 20,
-                      end: 20
+                    start: 20,
+                    end: 20
                   ),
                   child: TextFormField(
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                     ),
                     decoration: InputDecoration(
@@ -85,8 +56,8 @@ class _LoginState extends State<Login> {
                         fontSize: 18,
                       ),
                       border: OutlineInputBorder(),
-                      labelText: 'E-mail',
-                      prefixIcon: Icon(
+                      labelText:'E-mail',
+                      prefixIcon:Icon(
                           Icons.mail
                       ),
                     ),
@@ -94,25 +65,11 @@ class _LoginState extends State<Login> {
                     textAlignVertical: TextAlignVertical.top,
                     textInputAction: TextInputAction.next,
                     controller: emailcontroller,
-                    onSaved: (value) {
-                      emailcontroller.text = value!;
-                    },
-
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        isLoading =false;
+                    validator: (value)
+                    {
+                      if (value!.isEmpty){
                         return 'E-mail address required';
                       }
-                      else if (value.length < 5) {
-                        isLoading =false;
-                        return "please, write a valid Email ";
-                      }
-                      final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
-                      if (!emailRegex.hasMatch(value)) {
-                        isLoading =false;
-                        return 'Please enter a valid email address ';
-                      }
-                      return null;
                     },
                   ),
                 ),
@@ -121,51 +78,46 @@ class _LoginState extends State<Login> {
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(
-                      start: 20,
-                      end: 20
+                    start: 20,
+                    end: 20
                   ),
                   child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                      decoration: InputDecoration(
-                          floatingLabelStyle: TextStyle(
-                            fontSize: 18,
-                          ),
-                          //contentPadding: EdgeInsetsDirectional.only(top: 10,start: 10,end: 10, bottom: 10 ),
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          prefixIcon: Icon(
-                            Icons.lock,
-                          ),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  showpassword = !showpassword;
-                                });
-                              },
-                              icon: showpassword ? Icon(
-                                Icons.visibility_off,
-                                color: Colors.grey,
-                              ) :
-                              Icon(
-                                Icons.visibility,
-                              )
-                          )
-                      ),
-                      keyboardType: TextInputType.visiblePassword,
-                      controller: passwordcontroller,
-                      obscureText: showpassword,
-                      textAlignVertical: TextAlignVertical.top,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Password required';
-                        }
-                        else if (value.length < 6) {
-                          return "password can't be less than 6 ";
-                        }
-                        return null;
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                    decoration: InputDecoration(
+                        floatingLabelStyle: TextStyle(
+                          fontSize: 18,
+                        ),
+                        //contentPadding: EdgeInsetsDirectional.only(top: 10,start: 10,end: 10, bottom: 10 ),
+                        border: OutlineInputBorder(),
+                        labelText:'Password',
+                        prefixIcon: Icon(
+                          Icons.lock,
+                        ),
+                        suffixIcon: IconButton(
+                            onPressed: (){
+                              setState(() {
+                                showpassword = !showpassword;
+                              });
+                            },
+                            icon: showpassword? Icon(
+                              Icons.visibility_off,
+                              color: Colors.grey,
+                            ) :
+                            Icon(
+                              Icons.visibility,
+                            )
+                        )
+                    ),
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: showpassword,
+                    textAlignVertical: TextAlignVertical.top,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Password required';
                       }
+                    }
                   ),
                 ),
                 SizedBox(
@@ -176,11 +128,11 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsetsDirectional.only(end: 20),
                   height: 35,
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: (){
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ForgetPassword1()
+                              builder: (context) =>ForgetPassword1()
                           )
                       );
                     },
@@ -198,30 +150,49 @@ class _LoginState extends State<Login> {
                 Container(
                   height: 45,
                   width: double.infinity,
-                  padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
+                  padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
                   child: MaterialButton(
+                    onPressed: ()async{
+                      if (formkey.currentState!.validate()) {
+                        try{
+                        UserCredential credential = await instance.signInWithEmailAndPassword
+                          (email: emailcontroller.text, password: passwordcontroller.text);
+                        // NotificationListener(child: AdminHome());
+                        
 
-                    onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      var user = await signin();
-                      if (user != null) {
-                        setState(() {
-                          isLoading = false;
-                        });
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) => AdminHome(),));
-                      } else {
-                        return null;
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context)=>AdminHome()
+                            )
+                        );
+                        }
+                        on FirebaseAuthException catch(e){
+                          if(e.code == "invalid-email"){
+                            loginkey.currentState!.showSnackBar(
+                              SnackBar(
+                                content: Text("Sorry! your email is invalid",style: TextStyle(color: Colors.white)),
+                                duration: Duration(seconds: 1),
+                                backgroundColor: Colors.grey[600],
+
+                              ),
+                            );
+                          }else if (e.code == "wrong-password"){
+                            loginkey.currentState!.showSnackBar(
+                              SnackBar(
+                                content: Text("Sorry! wrong password",style: TextStyle(color: Colors.white)),
+                                duration: Duration(seconds: 1),
+                                backgroundColor: Colors.grey[600],
+
+                              ),
+                            );
+                          }
+
                       }
+                      }
+
+
+
                     },
-                    child:isLoading
-                        ? SpinKitCircle(
-                      color: Colors.white,
-                      size: 50.0,
-                    )
-                        :  Text(
+                    child:Text(
                       'Log in',
                       style: TextStyle(
                         color: Colors.white,
@@ -231,8 +202,8 @@ class _LoginState extends State<Login> {
 
                     ),
                     color: Color(0xff014EB8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),),
+                    shape:RoundedRectangleBorder (
+                      borderRadius: BorderRadius.circular (10.0), ),
 
 
                   ),
