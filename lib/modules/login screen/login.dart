@@ -29,21 +29,35 @@ class _LoginState extends State<Login> {
             .signInWithEmailAndPassword(
           email: emailcontroller.text,
           password: passwordcontroller.text,);
-
+        setState(() {
+          isLoading = true;
+        });
         return userCredential;
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'invalid-email') {
-          isLoading =false;
+          print("not valid email");
+          setState(() {
+            isLoading = true;
+          });
           loginkey.currentState?.showSnackBar(
               SnackBar(content: Text(e.message ?? "")));
-        } else if (e.code == 'wrong-password') {
-          isLoading =false;
-          loginkey.currentState?.showSnackBar(
-              SnackBar(content: Text(e.message ?? "")));
+          setState(() {
+            isLoading = false;
+          });
+
         }
-      }catch (e){
-        return e.toString();
+        else if (e.code == 'wrong-password') {
+          print("not valid email");
+          setState(() {
+            isLoading = true;
+          });
+          loginkey.currentState?.showSnackBar(
+              SnackBar(content: Text(e.message ?? "")));
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     }
   }
@@ -99,19 +113,23 @@ class _LoginState extends State<Login> {
 
                     validator: (value) {
                       if (value!.isEmpty) {
-                        isLoading =false;
+                        setState(() {
+                          isLoading = false;
+                        });
                         return 'E-mail address required';
                       }
                       else if (value.length < 5) {
-                        isLoading =false;
+                        setState(() {
+                          isLoading = false;
+                        });
                         return "please, write a valid Email ";
                       }
-                      final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
-                      if (!emailRegex.hasMatch(value)) {
-                        isLoading =false;
-                        return 'Please enter a valid email address ';
-                      }
-                      return null;
+                      // final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
+                      // if (!emailRegex.hasMatch(value)) {
+                      //   isLoading =false;
+                      //   return 'Please enter a valid email address ';
+                      //}
+
                     },
                   ),
                 ),
@@ -158,9 +176,16 @@ class _LoginState extends State<Login> {
                       textAlignVertical: TextAlignVertical.top,
                       validator: (value) {
                         if (value!.isEmpty) {
+                          setState(() {
+                            isLoading = false;
+                          });
                           return 'Password required';
+
                         }
                         else if (value.length < 6) {
+                          setState(() {
+                            isLoading = false;
+                          });
                           return "password can't be less than 6 ";
                         }
                         return null;
@@ -211,8 +236,6 @@ class _LoginState extends State<Login> {
                         });
                         Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) => AdminHome(),));
-                      } else {
-                        return null;
                       }
                     },
                     child:isLoading
@@ -225,9 +248,7 @@ class _LoginState extends State<Login> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 17,
-
                       ),
-
                     ),
                     color: Color(0xff014EB8),
                     shape: RoundedRectangleBorder(

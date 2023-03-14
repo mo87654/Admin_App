@@ -1,4 +1,5 @@
 
+import 'package:admin_app/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../shared/component/colors.dart';
@@ -22,9 +23,11 @@ class _AdminHomeState extends State<AdminHome> {
     super.initState();
     instance.authStateChanges().listen((User? user) {
       if (user == null) {
+        isLogin = false;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Login()),
+
         );
       }
     });
