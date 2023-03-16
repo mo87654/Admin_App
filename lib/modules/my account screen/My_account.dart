@@ -270,10 +270,10 @@ class _MyAccountState extends State<MyAccount> {
               child: Column(
 
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:const [
+                  children: [
                     Padding(
                       padding: EdgeInsets.only(bottom: 25.0),
-                      child: Text('User name',
+                      child: Text(FirebaseAuth.instance.currentUser!.displayName??"no name",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -297,7 +297,7 @@ class _MyAccountState extends State<MyAccount> {
 
                     Padding(
                       padding: EdgeInsets.only(bottom: 25.0),
-                      child: Text('Email Address',
+                      child: Text(FirebaseAuth.instance.currentUser!.email!,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

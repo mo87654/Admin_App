@@ -43,6 +43,8 @@ dependencies:
   cloud_firestore: ^4.4.4
   timer_count_down: ^2.2.2
   country_picker: ^2.0.20
+  responsive_framework: ^0.2.0
+
 
 dev_dependencies:
   flutter_test:
