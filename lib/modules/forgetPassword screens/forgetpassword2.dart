@@ -1,12 +1,9 @@
 
-
-
+import 'package:admin_app/modules/forgetPassword%20screens/forgetPassword3.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import 'forgetPassword3.dart';
 class ForgetPassword2 extends StatefulWidget {
   ForgetPassword2({required this.phoneNumber,required this.verificationId});
   final String verificationId;
@@ -62,7 +59,7 @@ class _ForgetPassword2State extends State<ForgetPassword2> {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30.0,
             ),
 
@@ -79,7 +76,7 @@ class _ForgetPassword2State extends State<ForgetPassword2> {
                         keyboardType: TextInputType.number,
                         maxLength: 1,
                         textAlign: TextAlign.center,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           counterText: "",
                           border: OutlineInputBorder(),
                           enabledBorder: OutlineInputBorder(

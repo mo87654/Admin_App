@@ -1,4 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:admin_app/modules/login%20screen/login.dart';
+
 import 'package:flutter/material.dart';
 
 class SignOutMessage extends StatelessWidget {
@@ -16,7 +17,7 @@ class SignOutMessage extends StatelessWidget {
           child: Text('Cancel'),
         ),
         TextButton(
-          onPressed: onSignOut,
+          onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(),)),
           child: Text('Sign Out'),
         ),
       ],

@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
 
-import 'forgetPassword4.dart';
+import 'package:admin_app/modules/forgetPassword%20screens/forgetPassword4.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../login screen/login.dart';
 
 class ForgetPassword3 extends StatefulWidget {
   @override
@@ -11,6 +14,42 @@ class _ForgetPassword3State extends State<ForgetPassword3> {
 var formkey = GlobalKey<FormState>();
 bool showpassword1 = true;
 bool showpassword2 = true;
+var emailController = TextEditingController();
+var oldPasswordController = TextEditingController();
+var newPasswordController = TextEditingController();
+bool isLoading = false;
+var user = FirebaseAuth.instance.currentUser;
+
+changePassword({email, oldPassword, newPassword}) async {
+
+
+  try {
+
+    // if(user != null){
+    var credential = EmailAuthProvider.credential(email: email, password:oldPassword );
+
+    await user!.reauthenticateWithCredential(credential).then((value) {
+      user!.updatePassword(newPassword);
+    }).catchError((e){
+      print(e.toString());
+    });
+
+    // }
+
+  } on FirebaseAuthException catch (error) {
+    print(error.message ??"") ;
+    if (error.code == 'wrong-password') {
+      print(error.message ??"") ;
+    }
+
+  } catch (error) {
+    print(error.toString());
+  }
+
+  return null;
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +61,14 @@ bool showpassword2 = true;
             children: [
               Container(
                 padding: EdgeInsets.symmetric(vertical: 15),
-                child: Image(
+                child: const Image(
                   image: AssetImage('assets/images/bus.jpg'),
                   width: double.infinity,
                   height: 300,
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Padding(
@@ -38,17 +77,70 @@ bool showpassword2 = true;
                   end: 20,
                 ),
                 child: TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                   ),
                   decoration: InputDecoration(
-                      floatingLabelStyle: TextStyle(
+                    floatingLabelStyle: TextStyle(
+                      fontSize: 18,
+                    ),
+                    border: OutlineInputBorder(),
+                    labelText: 'E-mail',
+                    prefixIcon: Icon(
+                        Icons.mail
+                    ),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  textAlignVertical: TextAlignVertical.top,
+                  textInputAction: TextInputAction.next,
+                  controller: emailController,
+                  onSaved: (value) {
+                    emailController.text = value!;
+                  },
+
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      return 'E-mail address required';
+                    }
+                    else if (value.length < 5) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      return "please, write a valid Email ";
+                    }
+                    // final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
+                    // if (!emailRegex.hasMatch(value)) {
+                    //   isLoading =false;
+                    //   return 'Please enter a valid email address ';
+                    //}
+
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                  start: 20,
+                  end: 20,
+                ),
+                child: TextFormField(
+                  controller: oldPasswordController,
+                  style: const TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: InputDecoration(
+                      floatingLabelStyle: const TextStyle(
                         fontSize: 18,
                       ),
                       //contentPadding: EdgeInsetsDirectional.only(top: 10,start: 10,end: 10, bottom: 10 ),
                       border: OutlineInputBorder(),
-                      labelText:'New Password',
-                      prefixIcon: Icon(
+                      labelText:'Current Password',
+                      prefixIcon: const Icon(
                         Icons.lock_reset,
                       ),
                       suffixIcon: IconButton(
@@ -57,24 +149,27 @@ bool showpassword2 = true;
                               showpassword1 = !showpassword1;
                             });
                           },
-                          icon: showpassword1? Icon(
-                              Icons.visibility
-                          ) :
-                          Icon(
+                          icon: showpassword1
+                              ? const Icon(
                             Icons.visibility_off,
-                            color: Colors.grey,
-                          )
+                            color: Colors.grey,)
+                              : Icon(
+                              Icons.visibility)
+
                       )
 
                   ),
                   keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  obscureText: showpassword1,
                   textInputAction: TextInputAction.next,
                   textAlignVertical: TextAlignVertical.top,
                   validator: (value)
                   {
                     if (value!.isEmpty){
                       return 'Password required';
+                    }
+                    if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
                     }
                     return null;
                   },
@@ -89,6 +184,7 @@ bool showpassword2 = true;
                   end: 20
                 ),
                 child: TextFormField(
+                 controller: newPasswordController,
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -98,7 +194,7 @@ bool showpassword2 = true;
                       ),
                       //contentPadding: EdgeInsetsDirectional.only(top: 10,start: 10,end: 10, bottom: 10 ),
                       border: OutlineInputBorder(),
-                      labelText:'Confirm New Password',
+                      labelText:' New Password',
                       prefixIcon: Icon(
                         Icons.lock_reset,
                       ),
@@ -108,17 +204,18 @@ bool showpassword2 = true;
                               showpassword2 = !showpassword2;
                             });
                           },
-                          icon: showpassword2? Icon(
-                              Icons.visibility
-                          ) :
-                          Icon(
+                          icon: showpassword2
+                              ? Icon(
                             Icons.visibility_off,
-                            color: Colors.grey,
-                          )
+                            color: Colors.grey,)
+                              :Icon(
+                              Icons.visibility)
+
                       )
                   ),
+                  onSaved:  (newValue) => newPasswordController.text,
                   keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
+                  obscureText: showpassword2,
                   textAlignVertical: TextAlignVertical.top,
                   validator: (value)
                   {
@@ -137,18 +234,24 @@ bool showpassword2 = true;
                 width: double.infinity,
                 padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
                 child: MaterialButton(
-                  onPressed: (){
-                    if (formkey.currentState!.validate())
-                    {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context)=>ForgetPassword4()
-                          )
+                  onPressed: ()async{
+                    if (formkey.currentState!.validate()) {
+                      var user =  await changePassword(
+                        email:emailController.text,
+                        oldPassword: oldPasswordController.text,
+                        newPassword: newPasswordController.text,
                       );
+                      if (user != null)
+
+                      print("changed");
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword4(),));
                     }
                   },
-                  child:Text(
+                  child: isLoading
+                      ? SpinKitCircle(
+                    color: Colors.white,
+                    size: 50.0,
+                  ):Text(
                     'Reset Password',
                     style: TextStyle(
                       color: Colors.white,
