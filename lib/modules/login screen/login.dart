@@ -32,7 +32,9 @@ class _LoginState extends State<Login> {
         setState(() {
           isLoading = true;
         });
+
         return userCredential;
+
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'invalid-email') {
@@ -45,7 +47,6 @@ class _LoginState extends State<Login> {
           setState(() {
             isLoading = false;
           });
-
         }
         else if (e.code == 'wrong-password') {
           print("not valid email");
@@ -58,6 +59,7 @@ class _LoginState extends State<Login> {
             isLoading = false;
           });
         }
+
       }
     }
   }
@@ -161,11 +163,12 @@ class _LoginState extends State<Login> {
                                   showpassword = !showpassword;
                                 });
                               },
-                              icon: showpassword ? Icon(
+                              icon: showpassword
+                                  ? Icon(
                                 Icons.visibility_off,
                                 color: Colors.grey,
-                              ) :
-                              Icon(
+                              )
+                                  : Icon(
                                 Icons.visibility,
                               )
                           )
@@ -236,6 +239,7 @@ class _LoginState extends State<Login> {
                         });
                         Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) => AdminHome(),));
+
                       }
                     },
                     child:isLoading

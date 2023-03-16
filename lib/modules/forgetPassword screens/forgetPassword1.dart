@@ -100,6 +100,9 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                   validator: (value)
                   {
                     if (value!.isEmpty){
+                      setState(() {
+                        isLogin = false;
+                      });
                       return 'Please enter your phone number';
                     }return null;
 
