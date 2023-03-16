@@ -1,5 +1,6 @@
 
-import 'package:admin_app/main.dart';
+import 'package:admin_app/modules/home%20screen/search_delegate.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../shared/component/colors.dart';
@@ -17,13 +18,23 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   FirebaseAuth instance = FirebaseAuth.instance;
+  List names=[];
+  getData(String collection)async{
+    names.clear();
+    var dataref = FirebaseFirestore.instance.collection(collection);
+    var response = await dataref.get();
+    response.docs.forEach((element) {
+      setState(() {
+        names.add(element.data()['name']);
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     instance.authStateChanges().listen((User? user) {
       if (user == null) {
-        isLogin = false;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Login()),
@@ -34,7 +45,7 @@ class _AdminHomeState extends State<AdminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        backgroundColor: color(),
+        backgroundColor: app_color(),
         leading:  Text(' '),
         title: Text ('Home'),
         actions: [
@@ -156,11 +167,8 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => SearchPage()
-                              )
-                          );
+                          getData('Students');
+                          showSearch(context: context, delegate: Search(data: names,pageNum: 0));
                         },
                       )
                   ),
@@ -268,11 +276,8 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => SearchPage()
-                              )
-                          );
+                          getData('Drivers');
+                          showSearch(context: context, delegate: Search(data: names,pageNum: 1));
                         },
                       )
                   ),
@@ -380,11 +385,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(
-                                  builder: (context) => SearchPage()
-                              )
-                          );
+
                         },
                       )
                   ),
