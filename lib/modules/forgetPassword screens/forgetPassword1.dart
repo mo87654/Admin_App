@@ -1,9 +1,37 @@
+
+
+import 'package:admin_app/modules/forgetPassword%20screens/forgetpassword2.dart';
+import 'package:country_picker/country_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'forgetpassword2.dart';
 
-class ForgetPassword1 extends StatelessWidget {
+class ForgetPassword1 extends StatefulWidget {
+  @override
+  State<ForgetPassword1> createState() => _ForgetPassword1State();
+}
+
+class _ForgetPassword1State extends State<ForgetPassword1> {
   var formkey = GlobalKey<FormState>();
+  bool isLogin = false;
+
+  String verificationFailedMessage ="";
+
+   TextEditingController phoneNumController = TextEditingController();
+
+   Country selectedCountry = Country(
+       phoneCode: "20",
+       countryCode: "EG",
+       e164Sc: 0,
+       geographic: true,
+       level: 1,
+       name: "Egypt",
+       example: "Egypt",
+       displayName: "Egypt",
+       displayNameNoCountryCode: "EG",
+       e164Key: ""
+   );
 
   @override
   Widget build(BuildContext context) {
@@ -31,28 +59,51 @@ class ForgetPassword1 extends StatelessWidget {
                   end: 20,
                 ),
                 child: TextFormField(
-                  style: TextStyle(
+                  style:  TextStyle(
                     fontSize: 20,
                   ),
-                  decoration: InputDecoration(
+
+                  decoration:  InputDecoration(
                     floatingLabelStyle: TextStyle(
                       fontSize: 18,
                     ),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelText:'Tele-Number',
-                    prefixIcon:Icon(
-                        Icons.phone_android
+
+
+                    prefixIcon:Container(
+                      padding: EdgeInsetsDirectional.fromSTEB(5, 12, 15, 12),
+                      child: InkWell(
+                        onTap: (){
+                          showCountryPicker(
+                            context: context,
+                            countryListTheme: const CountryListThemeData(bottomSheetHeight: 500),
+                            onSelect: (value) {
+                           setState(() {
+                             selectedCountry = value;
+                           });
+                          },);
+                        },
+                        child: Text("${selectedCountry.flagEmoji}+${selectedCountry.phoneCode}",
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  keyboardType: TextInputType.number,
+
+                  keyboardType: TextInputType.phone,
                   textAlignVertical: TextAlignVertical.top,
+                  controller: phoneNumController,
                   validator: (value)
                   {
                     if (value!.isEmpty){
-                      return 'Tele-Number required';
-                    }
-                    return null;
-                  },
+                      return 'Please enter your phone number';
+                    }return null;
+
+                  }
 
                 ),
               ),
@@ -64,33 +115,77 @@ class ForgetPassword1 extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
                 child: MaterialButton(
-                  onPressed: (){
-                    if (formkey.currentState!.validate())
-                    {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgetPassword2()
-                          )
-                      );
+                  onPressed: ()async{
+                    setState(() {
+                      isLogin = true;
+                    });
+
+                    if (formkey.currentState!.validate()) {
+                      await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber: "+${selectedCountry.phoneCode}"+phoneNumController.text,
+                      verificationCompleted: (PhoneAuthCredential credential) {},
+                      verificationFailed: (FirebaseAuthException e) {
+
+                        setState(() {
+                          isLogin = false;
+                        });
+                        setState(() {
+                          verificationFailedMessage = e.message ??"";
+                        });
+
+                      },
+                      codeSent: (String verificationId, int? resendToken) {
+                        setState(() {
+                          isLogin = false;
+                        });
+                       Navigator.of(context)
+                           .pushReplacement(PageRouteBuilder(
+                           pageBuilder: (_,__,___) =>ForgetPassword2(phoneNumber:phoneNumController.text ,verificationId: verificationId)));
+                      },
+
+                      codeAutoRetrievalTimeout: (String verificationId) {
+                        Navigator.of(context)
+                            .pushReplacement(PageRouteBuilder(
+                            pageBuilder: (_,__,___) =>ForgetPassword2(phoneNumber:phoneNumController.text ,verificationId: verificationId)));
+
+                      },
+                    );
                     }
-
-
                   },
-                  child:Text(
+                  color: const Color(0xff014EB8),
+                  shape:RoundedRectangleBorder (
+                    borderRadius: BorderRadius.circular (10.0), ),
+                  child:isLogin
+                      ? SpinKitCircle(
+                    color: Colors.white,
+                    size: 50.0,
+                  )
+                      :  Text(
                     'Verify Tele-number',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,
                     ),
                   ),
-                  color: Color(0xff014EB8),
-                  shape:RoundedRectangleBorder (
-                    borderRadius: BorderRadius.circular (10.0), ),
+                  // child:const Text(
+                  //   'Verify Tele-number',
+                  //   style: TextStyle(
+                  //     color: Colors.white,
+                  //     fontSize: 17,
+                  //   ),
+                  // ),
+
 
 
                 ),
+
               ),
+              const SizedBox(
+                height: 60.0,
+              ),
+
+              Text(verificationFailedMessage)
+
             ],
           ),
         ),

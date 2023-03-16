@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../shared/component/SignoutMessage.dart';
 import '../../shared/component/colors.dart';
+import '../AboutUs Screen/AboutUs.dart';
 import '../change password screen/change_password.dart';
 import '../help screen/help_screen.dart';
 import '../personal info screen/personal_info.dart';
@@ -150,7 +151,7 @@ class _MyAccountState extends State<MyAccount> {
                   ),
 
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUsScreen(),));
                   },
                 ),
 
