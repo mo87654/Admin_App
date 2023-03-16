@@ -33,7 +33,7 @@ class _MyAccountState extends State<MyAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: color(),
+          backgroundColor: app_color(),
           leading:  Builder(
               builder: (context) {
                 return IconButton(
@@ -113,7 +113,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 40.0),
-                      child: Switch(onChanged: (bool value) {  }, value: true, activeColor: color(),),
+                      child: Switch(onChanged: (bool value) {  }, value: true, activeColor: app_color(),),
                     ),
                   ],
                 ),

@@ -21,7 +21,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: color(),
+        backgroundColor: app_color(),
         leading: IconButton(
           onPressed: (){
             Navigator.pop(context);

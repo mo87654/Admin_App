@@ -17,7 +17,7 @@ class _AdminBusesDataState extends State<AdminBusesData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: color(),
+        backgroundColor: app_color(),
         leading: IconButton(
             onPressed: (){
               Navigator.pop(context);
