@@ -9,7 +9,7 @@ class Search extends SearchDelegate{
     required this.data,
     required this.pageNum,
   });
-  final List <String> data;
+  final List data;
   final int pageNum;
   List<Widget> pages = [
     AdminStudentsData(),
