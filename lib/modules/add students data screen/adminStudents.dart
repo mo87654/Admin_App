@@ -27,7 +27,7 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: color(),
+        backgroundColor: app_color(),
         leading: IconButton(
           onPressed: (){
             Navigator.pop(context);
@@ -331,13 +331,14 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                           CollectionReference studentRef =
                           FirebaseFirestore.instance.collection('Students');
                           studentRef.doc(idcontroller.text).set({
-                            'name': namecontroller.text,
-                            'gender': selectedItem,
-                            'email': emailcontroller.text,
-                            'tele-num': tele_numcontroller.text,
-                            'grad': gradcontroller.text,
+                            'name'       : namecontroller.text,
+                            'gender'     : selectedItem,
+                            'email'      : emailcontroller.text,
+                            'address'    : addresscontroller,
+                            'tele-num'   : tele_numcontroller.text,
+                            'grad'       : gradcontroller.text,
                             'MAC-address': mac_addcontroller.text,
-                            'Bus id': bus_idcontroller.text,
+                            'Bus id'     : bus_idcontroller.text,
                           });
                           Navigator.pop(context);
                         }
