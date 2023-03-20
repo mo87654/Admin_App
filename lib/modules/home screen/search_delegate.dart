@@ -11,11 +11,7 @@ class Search extends SearchDelegate{
   });
   final List data;
   final int pageNum;
-  List<Widget> pages = [
-    AdminStudentsData(),
-    AdminDriversData(),
-    AdminBusesData(),
-  ];
+
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -53,28 +49,33 @@ class Search extends SearchDelegate{
     List searchResult = data.where((element) =>
         element.contains(query)
     ).toList();
-    return InkWell(
-      onTap: (){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context)=>pages[pageNum]
-            )
-        );
-      },
-      child: ListView.builder(
-          itemCount: query==''?data.length:searchResult.length,
-          itemBuilder: (context, index){
-            return ListTile(
+    return ListView.builder(
+        itemCount: query==''?data.length:searchResult.length,
+        itemBuilder: (context, index){
+          return InkWell(
+            onTap: (){
+              List<Widget> pages = [
+                AdminStudentsData(name: query=='' ? data[index]:searchResult[index],),
+                AdminDriversData(name: query=='' ? data[index]:searchResult[index],),
+                AdminBusesData(),
+              ];
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context)=>pages[pageNum],
+                  )
+              );
+            },
+            child: ListTile(
               title: Text(
                 query=='' ? data[index]:searchResult[index],
                 style: TextStyle(
                   fontSize: 20,
                 ),
               ),
-            );
-          }
-      ),
+            ),
+          );
+        }
     );
   }
 

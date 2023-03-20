@@ -19,7 +19,7 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   FirebaseAuth instance = FirebaseAuth.instance;
   List names=[];
-  getData(String collection)async{
+  getNames(String collection)async{
     names.clear();
     var dataref = FirebaseFirestore.instance.collection(collection);
     var response = await dataref.get();
@@ -167,7 +167,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          getData('Students');
+                          getNames('Students');
                           showSearch(context: context, delegate: Search(data: names,pageNum: 0));
                         },
                       )
@@ -276,7 +276,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          getData('Drivers');
+                          getNames('Drivers');
                           showSearch(context: context, delegate: Search(data: names,pageNum: 1));
                         },
                       )
