@@ -3,15 +3,45 @@ import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
 import '../my account screen/My_account.dart';
 class AdminBusesData extends StatefulWidget{
+  AdminBusesData({
+    this.id,
+  });
+  String? id;
   @override
-  State<AdminBusesData> createState() => _AdminBusesDataState();
+  State<AdminBusesData> createState() => _AdminBusesDataState(id);
 }
 
 class _AdminBusesDataState extends State<AdminBusesData> {
+  _AdminBusesDataState(this.id);
+  String? id;
+
+  @override
+  void initState(){
+    super.initState();
+    if (id!=null) {
+      getData();
+    }
+  }
+
   var busID_controller = TextEditingController();
   var driverName_controller = TextEditingController();
   var driverID_controller = TextEditingController();
   var formkey = GlobalKey<FormState>();
+
+  List docData =[];
+  getData()async{
+    docData.clear();
+    var idDataRef = FirebaseFirestore.instance.collection('Buses').doc(id);
+    var result = await idDataRef.get();
+    docData.add(result.data());
+    print(docData);
+    assignData();
+  }
+  assignData(){
+    busID_controller.text=id!;
+    driverName_controller.text=docData[0]['Driver_name'];
+    driverID_controller.text=docData[0]['Driver_ID'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,12 +166,20 @@ class _AdminBusesDataState extends State<AdminBusesData> {
                       onPressed: () {
                         if (formkey.currentState!.validate())
                         {
-                          CollectionReference busRef =
-                          FirebaseFirestore.instance.collection('Buses');
-                          busRef.doc(busID_controller.text).set({
-                            'Driver_name': driverName_controller.text,
-                            'Driver_ID': driverID_controller.text,
-                          });
+                          if(id==''){
+                            CollectionReference busRef =
+                            FirebaseFirestore.instance.collection('Buses');
+                            busRef.doc(busID_controller.text).set({
+                              'Driver_name': driverName_controller.text,
+                              'Driver_ID': driverID_controller.text,
+                            });
+                          }else{
+                            var studentRef = FirebaseFirestore.instance.collection('Buses');
+                            studentRef.doc(id).update({
+                              'Driver_name': driverName_controller.text,
+                              'Driver_ID': driverID_controller.text,
+                            });
+                          }
                           Navigator.pop(context);
                         }
                       },
