@@ -27,22 +27,17 @@ class _AdminDriversDataState extends State<AdminDriversData> {
   List docData= [];
 
   getID() async {
+    docData.clear();
     var collId = FirebaseFirestore.instance.collection('Drivers');
     await collId.where('name', isEqualTo: name).get()
         .then((value) {
       value.docs.forEach((element) {
+        docData.add(element.data());
+        print(docData);
         id = element.id;
       });
-      getDataWithID();
+      assignData();
     });
-  }
-
-  getDataWithID() async {
-    docData.clear();
-    var idDataRef = FirebaseFirestore.instance.collection('Drivers').doc(id);
-    var result = await idDataRef.get();
-    docData.add(result.data());
-    assignData();
   }
 
   assignData(){

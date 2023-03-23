@@ -9,7 +9,6 @@ import '../add drivers data screen/adminDrivers.dart';
 import '../add students data screen/adminStudents.dart';
 import '../login screen/login.dart';
 import '../my account screen/My_account.dart';
-import '../search screen/searchPage.dart';
 class AdminHome extends StatefulWidget {
 
   @override
@@ -18,7 +17,10 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   FirebaseAuth instance = FirebaseAuth.instance;
+
   List names=[];
+  List busIDs = [];
+  List busDriver = [];
   getNames(String collection)async{
     names.clear();
     var dataref = FirebaseFirestore.instance.collection(collection);
@@ -28,6 +30,21 @@ class _AdminHomeState extends State<AdminHome> {
         names.add(element.data()['name']);
       });
     });
+  }
+  
+  getBusId()async{
+    busIDs.clear();
+    busDriver.clear();
+    var dataRef = FirebaseFirestore.instance.collection('Buses');
+    var response = await dataRef.get();
+    response.docs.forEach((element) {
+      setState(() {
+        busIDs.add(element.id);
+        busDriver.add(element.data()['Driver_name']);
+      });
+    });
+    print(busIDs);
+    print(busDriver);
   }
 
   @override
@@ -168,7 +185,7 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         onPressed: () {
                           getNames('Students');
-                          showSearch(context: context, delegate: Search(data: names,pageNum: 0));
+                          showSearch(context: context, delegate: Search(mainData: names,pageNum: 0));
                         },
                       )
                   ),
@@ -277,7 +294,7 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         onPressed: () {
                           getNames('Drivers');
-                          showSearch(context: context, delegate: Search(data: names,pageNum: 1));
+                          showSearch(context: context, delegate: Search(mainData: names,pageNum: 1));
                         },
                       )
                   ),
@@ -381,11 +398,17 @@ class _AdminHomeState extends State<AdminHome> {
                               style: TextStyle(color: Colors.white),
                               textAlign: TextAlign.center,
                             ),
-
                           ],
                         ),
                         onPressed: () {
-
+                          getBusId();
+                          showSearch(
+                              context: context, delegate: Search(
+                              mainData: busIDs,
+                              subData: busDriver,
+                              pageNum: 2
+                          )
+                          );
                         },
                       )
                   ),

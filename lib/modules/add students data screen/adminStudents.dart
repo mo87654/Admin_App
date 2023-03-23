@@ -29,24 +29,17 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   List docData= [];
 
   getID() async {
+    docData.clear();
      var collId = FirebaseFirestore.instance.collection('Students');
      await collId.where('name', isEqualTo: name).get()
          .then((value) {
        value.docs.forEach((element) {
+         docData.add(element.data());
          id = element.id;
        });
-       getDataWithID();
+       assignData();
      });
   }
-
-  getDataWithID() async {
-    docData.clear();
-    var idDataRef = FirebaseFirestore.instance.collection('Students').doc(id);
-    var result = await idDataRef.get();
-    docData.add(result.data());
-    assignData();
-  }
-
   assignData(){
     namecontroller.text = docData[0]['name'];
     idcontroller.text = id;
