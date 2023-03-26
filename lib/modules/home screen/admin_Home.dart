@@ -1,15 +1,17 @@
 
+import 'package:admin_app/Provider/auth_Provider.dart';
 import 'package:admin_app/modules/home%20screen/search_delegate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../shared/component/colors.dart';
 import '../add buses data screen/adminBuses.dart';
 import '../add drivers data screen/adminDrivers.dart';
 import '../add students data screen/adminStudents.dart';
 import '../login screen/login.dart';
 import '../my account screen/My_account.dart';
-import '../search screen/searchPage.dart';
+
 class AdminHome extends StatefulWidget {
 
   @override
@@ -41,8 +43,13 @@ class _AdminHomeState extends State<AdminHome> {
         );
       }
     });
+
+
   }
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar:AppBar(
         backgroundColor: app_color(),

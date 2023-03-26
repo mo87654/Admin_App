@@ -79,11 +79,8 @@ class ForgetPassword4 extends StatelessWidget {
               clipBehavior: Clip.antiAliasWithSaveLayer,*/
                    child: MaterialButton(
                      onPressed: (){
-                       Navigator.push(context,
-                           MaterialPageRoute(
-                               builder: (context)=>Login()
-                           )
-                       );
+                       Navigator.of(context).pushAndRemoveUntil(
+                           MaterialPageRoute(builder: (context) => Login(),), (route) => false);
                      },
                      child:Text(
                        'Log in',
