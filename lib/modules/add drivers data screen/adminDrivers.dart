@@ -4,11 +4,50 @@ import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
 import '../my account screen/My_account.dart';
 class AdminDriversData extends StatefulWidget{
+  AdminDriversData({
+    this.name,
+  });
+  String? name;
   @override
-  State<AdminDriversData> createState() => _AdminDriversDataState();
+  State<AdminDriversData> createState() => _AdminDriversDataState(name);
 }
-
 class _AdminDriversDataState extends State<AdminDriversData> {
+  _AdminDriversDataState(this.name);
+  String? name;
+
+  @override
+  void initState(){
+    super.initState();
+    if (name!=null) {
+      getID();
+    }
+  }
+
+  var id;
+  List docData= [];
+
+  getID() async {
+    docData.clear();
+    var collId = FirebaseFirestore.instance.collection('Drivers');
+    await collId.where('name', isEqualTo: name).get()
+        .then((value) {
+      value.docs.forEach((element) {
+        docData.add(element.data());
+        print(docData);
+        id = element.id;
+      });
+      assignData();
+    });
+  }
+
+  assignData(){
+    namecontroller.text = docData[0]['name'];
+    idcontroller.text = id;
+    emailcontroller.text= docData[0]['email'];
+    tele_numcontroller.text= docData[0]['tele-num'];
+    bus_idcontroller.text= docData[0]['Bus id'];
+  }
+
   var namecontroller = TextEditingController();
   var idcontroller = TextEditingController();
   var emailcontroller = TextEditingController();
@@ -138,11 +177,11 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                 keyboardType:TextInputType.visiblePassword,
                 obscureText: showpassword,
                 controller: passwordcontroller,
-                validator: (value) {
+                validator: name==null?(value) {
                   if (value!.isEmpty) {
                     return 'Password required';
                   }
-                },
+                }:null,
                 decoration: InputDecoration(
                     label: Text('Password'),
                     border: OutlineInputBorder(),
@@ -222,20 +261,31 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                     child: MaterialButton(
                       onPressed: ()async{
                         if (formkey.currentState!.validate()) {
-                          var studentAuth = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                              email: emailcontroller.text,
-                              password: passwordcontroller.text
-                          );
+                          if(name==null){
+                            var studentAuth = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                email: emailcontroller.text,
+                                password: passwordcontroller.text
+                            );
 
-                          CollectionReference driverRef =
-                          FirebaseFirestore.instance.collection('Drivers');
-                          driverRef.doc(idcontroller.text).set({
-                            'name': namecontroller.text,
-                            'email': emailcontroller.text,
-                            'tele-num': tele_numcontroller.text,
-                            'Bus id': bus_idcontroller.text,
-                          });
+                            CollectionReference driverRef =
+                            FirebaseFirestore.instance.collection('Drivers');
+                            driverRef.doc(idcontroller.text).set({
+                              'name': namecontroller.text,
+                              'email': emailcontroller.text,
+                              'tele-num': tele_numcontroller.text,
+                              'Bus id': bus_idcontroller.text,
+                            });
+
+                          }else{
+                            var studentRef = FirebaseFirestore.instance.collection('Drivers');
+                            studentRef.doc(id).update({
+                              'name': namecontroller.text,
+                              'email': emailcontroller.text,
+                              'tele-num': tele_numcontroller.text,
+                              'Bus id': bus_idcontroller.text,
+                            });
+                          }
                           Navigator.pop(context);
                         }
                       },

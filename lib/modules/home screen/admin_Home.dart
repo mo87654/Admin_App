@@ -175,7 +175,7 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         onPressed: () {
                           getData('Students');
-                          showSearch(context: context, delegate: Search(data: names,pageNum: 0));
+                          showSearch(context: context, delegate: Search(mainData: names,pageNum: 0));
                         },
                       )
                   ),
@@ -284,7 +284,7 @@ class _AdminHomeState extends State<AdminHome> {
                         ),
                         onPressed: () {
                           getData('Drivers');
-                          showSearch(context: context, delegate: Search(data: names,pageNum: 1));
+                          showSearch(context: context, delegate: Search(mainData: names,pageNum: 1));
                         },
                       )
                   ),

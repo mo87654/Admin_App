@@ -6,16 +6,13 @@ import '../add students data screen/adminStudents.dart';
 
 class Search extends SearchDelegate{
   Search({
-    required this.data,
+    required this.mainData,
     required this.pageNum,
+    this.subData,
   });
-  final List data;
+  final List mainData;
   final int pageNum;
-  List<Widget> pages = [
-    AdminStudentsData(),
-    AdminDriversData(),
-    AdminBusesData(),
-  ];
+  final List? subData;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -45,36 +42,47 @@ class Search extends SearchDelegate{
 
   @override
   Widget buildResults(BuildContext context) {
-    return null!;
+    return SizedBox();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List searchResult = data.where((element) =>
+    List searchResult = mainData.where((element) =>
         element.contains(query)
     ).toList();
-    return InkWell(
-      onTap: (){
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context)=>pages[pageNum]
-            )
-        );
-      },
-      child: ListView.builder(
-          itemCount: query==''?data.length:searchResult.length,
-          itemBuilder: (context, index){
-            return ListTile(
+    return ListView.builder(
+        itemCount: query==''?mainData.length:searchResult.length,
+        itemBuilder: (context, index){
+          return InkWell(
+            onTap: (){
+              List<Widget> pages = [
+                AdminStudentsData(name: query=='' ? mainData[index]:searchResult[index],),
+                AdminDriversData(name: query=='' ? mainData[index]:searchResult[index],),
+                AdminBusesData(id: query=='' ? mainData[index]:searchResult[index],),
+              ];
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context)=>pages[pageNum],
+                  )
+              );
+            },
+            child: ListTile(
               title: Text(
-                query=='' ? data[index]:searchResult[index],
+                query=='' ? mainData[index]:searchResult[index],
                 style: TextStyle(
                   fontSize: 20,
                 ),
               ),
-            );
-          }
-      ),
+              /*subtitle: Text(
+                query==''? subData![index]:null,
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              )*/
+            ),
+          );
+        }
     );
   }
 

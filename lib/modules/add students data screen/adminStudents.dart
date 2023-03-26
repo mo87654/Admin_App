@@ -5,11 +5,55 @@ import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
 import '../my account screen/My_account.dart';
 class AdminStudentsData extends StatefulWidget{
+  AdminStudentsData({
+     this.name,
+});
+  String? name;
   @override
-  State<AdminStudentsData> createState() => _AdminStudentsDataState();
+  State<AdminStudentsData> createState() => _AdminStudentsDataState(name);
 }
-
 class _AdminStudentsDataState extends State<AdminStudentsData> {
+
+  _AdminStudentsDataState(this.name);
+  String? name;
+
+  @override
+  void initState(){
+    super.initState();
+    if (name!=null) {
+      getID();
+    }
+  }
+
+  var id;
+  List docData= [];
+
+  getID() async {
+    docData.clear();
+     var collId = FirebaseFirestore.instance.collection('Students');
+     await collId.where('name', isEqualTo: name).get()
+         .then((value) {
+       value.docs.forEach((element) {
+         docData.add(element.data());
+         id = element.id;
+       });
+       assignData();
+     });
+  }
+  assignData(){
+    namecontroller.text = docData[0]['name'];
+    idcontroller.text = id;
+    selectedItem= docData[0]['gender'];
+    emailcontroller.text= docData[0]['email'];
+    addresscontroller.text= docData[0]['address'];
+    tele_numcontroller.text= docData[0]['tele-num'];
+    gradcontroller.text= docData[0]['grad'];
+    mac_addcontroller.text= docData[0]['MAC-address'];
+    bus_idcontroller.text= docData[0]['Bus id'];
+    print(selectedItem);
+  }
+
+
   var namecontroller = TextEditingController();
   var idcontroller = TextEditingController();
   var emailcontroller = TextEditingController();
@@ -22,8 +66,8 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   bool showpassword = true;
   var formkey = GlobalKey<FormState>();
 
-  @override
   String? selectedItem;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -171,11 +215,11 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                 keyboardType:TextInputType.visiblePassword,
                 obscureText: showpassword,
                 controller: passwordcontroller,
-                validator: (value) {
+                validator: name==null? (value) {
                   if (value!.isEmpty) {
                     return 'Password required';
                   }
-                },
+                }:null,
                 decoration: InputDecoration(
                     label: Text('Password'),
                     border: OutlineInputBorder(),
@@ -322,25 +366,41 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                     child: MaterialButton(
                       onPressed:() async {
                         if (formkey.currentState!.validate()) {
-                          var studentAuth = await FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                              email: emailcontroller.text,
-                              password: passwordcontroller.text
-                          );
+                          if(name==null){
+                            var studentAuth = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                email: emailcontroller.text,
+                                password: passwordcontroller.text
+                            );
 
-                          CollectionReference studentRef =
-                          FirebaseFirestore.instance.collection('Students');
-                          studentRef.doc(idcontroller.text).set({
-                            'name'       : namecontroller.text,
-                            'gender'     : selectedItem,
-                            'email'      : emailcontroller.text,
-                            'address'    : addresscontroller,
-                            'tele-num'   : tele_numcontroller.text,
-                            'grad'       : gradcontroller.text,
-                            'MAC-address': mac_addcontroller.text,
-                            'Bus id'     : bus_idcontroller.text,
-                          });
-                          Navigator.pop(context);
+                            CollectionReference studentRef =
+                            FirebaseFirestore.instance.collection('Students');
+                            studentRef.doc(idcontroller.text).set({
+                              'name'       : namecontroller.text,
+                              'gender'     : selectedItem,
+                              'email'      : emailcontroller.text,
+                              'address'    : addresscontroller,
+                              'tele-num'   : tele_numcontroller.text,
+                              'grad'       : gradcontroller.text,
+                              'MAC-address': mac_addcontroller.text,
+                              'Bus id'     : bus_idcontroller.text,
+                            });
+                            Navigator.pop(context);
+                          }else{
+                            var studentRef = FirebaseFirestore.instance.collection('Students');
+                            studentRef.doc(id).update({
+                              'name'       : namecontroller.text,
+                              'gender'     : selectedItem,
+                              'email'      : emailcontroller.text,
+                              'address'    : addresscontroller.text,
+                              'tele-num'   : tele_numcontroller.text,
+                              'grad'       : gradcontroller.text,
+                              'MAC-address': mac_addcontroller.text,
+                              'Bus id'     : bus_idcontroller.text,
+                            });
+                            Navigator.pop(context);
+                            print(mac_addcontroller.text);
+                          }
                         }
                       },
                       child:Text(
@@ -366,7 +426,7 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                     height: 40,
                     width: 120,
                     child: MaterialButton(
-                      onPressed: (){
+                      onPressed: ()  {
                         Navigator.pop(context);
                       },
                       child:Text(
