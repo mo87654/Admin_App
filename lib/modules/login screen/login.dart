@@ -1,7 +1,9 @@
+import 'package:admin_app/Provider/auth_Provider.dart';
 import 'package:admin_app/modules/home%20screen/admin_Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import '../forgetPassword screens/forgetPassword1.dart';
 
 class Login extends StatefulWidget {
@@ -17,7 +19,7 @@ class _LoginState extends State<Login> {
   var passwordcontroller = TextEditingController();
   bool showpassword = true;
   bool isLoading = false;
-
+  final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
   //String? selectedItem;
   @override
   String? selectedItem = 'User';
@@ -51,7 +53,7 @@ class _LoginState extends State<Login> {
         else if (e.code == 'wrong-password') {
           print("not valid email");
           setState(() {
-            isLoading = true;
+            isLoading = false;
           });
           loginkey.currentState?.showSnackBar(
               SnackBar(content: Text(e.message ?? "")));
@@ -60,8 +62,15 @@ class _LoginState extends State<Login> {
           });
         }
 
+
+      }catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+        return(e.toString());
       }
-    }
+
+    } else{return null;}
   }
 
 
@@ -125,12 +134,10 @@ class _LoginState extends State<Login> {
                           isLoading = false;
                         });
                         return "please, write a valid Email ";
+                      }else if (!emailRegex.hasMatch(value)) {
+                        isLoading =false;
+                        return 'Please enter a valid email address ';
                       }
-                      // final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
-                      // if (!emailRegex.hasMatch(value)) {
-                      //   isLoading =false;
-                      //   return 'Please enter a valid email address ';
-                      //}
 
                     },
                   ),
@@ -232,8 +239,8 @@ class _LoginState extends State<Login> {
                       setState(() {
                         isLoading = true;
                       });
-                      var user = await signin();
-                      if (user != null) {
+                     var user =  await signin();
+                     if (user != null) {
                         setState(() {
                           isLoading = false;
                         });
@@ -241,6 +248,9 @@ class _LoginState extends State<Login> {
                           builder: (context) => AdminHome(),));
 
                       }
+
+
+
                     },
                     child:isLoading
                         ? SpinKitCircle(

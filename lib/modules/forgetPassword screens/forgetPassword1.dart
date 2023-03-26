@@ -14,7 +14,7 @@ class ForgetPassword1 extends StatefulWidget {
 
 class _ForgetPassword1State extends State<ForgetPassword1> {
   var formkey = GlobalKey<FormState>();
-  bool isLogin = false;
+  bool isLoading = false;
 
   String verificationFailedMessage ="";
 
@@ -101,7 +101,7 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                   {
                     if (value!.isEmpty){
                       setState(() {
-                        isLogin = false;
+                        isLoading = false;
                       });
                       return 'Please enter your phone number';
                     }return null;
@@ -120,7 +120,7 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                 child: MaterialButton(
                   onPressed: ()async{
                     setState(() {
-                      isLogin = true;
+                      isLoading = true;
                     });
 
                     if (formkey.currentState!.validate()) {
@@ -130,7 +130,7 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                       verificationFailed: (FirebaseAuthException e) {
 
                         setState(() {
-                          isLogin = false;
+                          isLoading = false;
                         });
                         setState(() {
                           verificationFailedMessage = e.message ??"";
@@ -139,17 +139,21 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                       },
                       codeSent: (String verificationId, int? resendToken) {
                         setState(() {
-                          isLogin = false;
+                          isLoading = false;
                         });
-                       Navigator.of(context)
-                           .pushReplacement(PageRouteBuilder(
-                           pageBuilder: (_,__,___) =>ForgetPassword2(phoneNumber:phoneNumController.text ,verificationId: verificationId)));
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => ForgetPassword2(phoneNumber: phoneNumController.text, verificationId: verificationId),));
                       },
+    // Navigator.of(context)
+    //     .pushReplacement(PageRouteBuilder(
+    // pageBuilder: (_,__,___) =>ForgetPassword2(phoneNumber:phoneNumController.text ,verificationId: verificationId)));
+    // },
 
                       codeAutoRetrievalTimeout: (String verificationId) {
-                        Navigator.of(context)
-                            .pushReplacement(PageRouteBuilder(
-                            pageBuilder: (_,__,___) =>ForgetPassword2(phoneNumber:phoneNumController.text ,verificationId: verificationId)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ForgetPassword2(phoneNumber: phoneNumController.text, verificationId: verificationId),));
 
                       },
                     );
@@ -158,7 +162,7 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                   color: const Color(0xff014EB8),
                   shape:RoundedRectangleBorder (
                     borderRadius: BorderRadius.circular (10.0), ),
-                  child:isLogin
+                  child:isLoading
                       ? SpinKitCircle(
                     color: Colors.white,
                     size: 50.0,
@@ -170,15 +174,6 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                       fontSize: 17,
                     ),
                   ),
-                  // child:const Text(
-                  //   'Verify Tele-number',
-                  //   style: TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 17,
-                  //   ),
-                  // ),
-
-
 
                 ),
 

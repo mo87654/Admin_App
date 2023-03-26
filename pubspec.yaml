@@ -43,6 +43,10 @@ dependencies:
   timer_count_down: ^2.2.2
   country_picker: ^2.0.20
   responsive_framework: ^0.2.0
+  provider:
+
+
+
 
 
 dev_dependencies:

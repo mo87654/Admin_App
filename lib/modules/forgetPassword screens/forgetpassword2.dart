@@ -8,7 +8,6 @@ class ForgetPassword2 extends StatefulWidget {
   ForgetPassword2({required this.phoneNumber,required this.verificationId});
   final String verificationId;
   final String phoneNumber;
-
   @override
   State<ForgetPassword2> createState() => _ForgetPassword2State();
 }
@@ -187,7 +186,9 @@ class _ForgetPassword2State extends State<ForgetPassword2> {
                     });
 
                   if(auth.currentUser != null) {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ForgetPassword3(),));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) =>
+                            ForgetPassword3(),));
                   }
                   }
 
