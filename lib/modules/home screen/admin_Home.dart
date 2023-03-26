@@ -21,7 +21,9 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   FirebaseAuth instance = FirebaseAuth.instance;
   List names=[];
-  getData(String collection)async{
+  List busIDs = [];
+  List busDriver = [];
+  getNames(String collection)async{
     names.clear();
     var dataref = FirebaseFirestore.instance.collection(collection);
     var response = await dataref.get();
@@ -31,6 +33,21 @@ class _AdminHomeState extends State<AdminHome> {
       });
     });
   }
+  getBusId()async{
+    busIDs.clear();
+    busDriver.clear();
+    var dataRef = FirebaseFirestore.instance.collection('Buses');
+    var response = await dataRef.get();
+    response.docs.forEach((element) {
+      setState(() {
+        busIDs.add(element.id);
+        busDriver.add(element.data()['Driver_name']);
+      });
+    });
+    print(busIDs);
+    print(busDriver);
+  }
+
 
   @override
   void initState() {
@@ -174,7 +191,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          getData('Students');
+                          getNames('Students');
                           showSearch(context: context, delegate: Search(mainData: names,pageNum: 0));
                         },
                       )
@@ -283,7 +300,7 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-                          getData('Drivers');
+                          getNames('Drivers');
                           showSearch(context: context, delegate: Search(mainData: names,pageNum: 1));
                         },
                       )
@@ -392,7 +409,14 @@ class _AdminHomeState extends State<AdminHome> {
                           ],
                         ),
                         onPressed: () {
-
+                          getBusId();
+                          showSearch(
+                              context: context, delegate: Search(
+                              mainData: busIDs,
+                              subData: busDriver,
+                              pageNum: 2
+                          )
+                          );
                         },
                       )
                   ),
