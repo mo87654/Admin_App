@@ -33,7 +33,6 @@ class _AdminDriversDataState extends State<AdminDriversData> {
         .then((value) {
       value.docs.forEach((element) {
         docData.add(element.data());
-        print(docData);
         id = element.id;
       });
       assignData();
@@ -42,7 +41,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
 
   assignData(){
     namecontroller.text = docData[0]['name'];
-    idcontroller.text = id;
+    idcontroller.text = docData[0]['id'];
     emailcontroller.text= docData[0]['email'];
     tele_numcontroller.text= docData[0]['tele-num'];
     bus_idcontroller.text= docData[0]['Bus id'];
@@ -262,7 +261,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                       onPressed: ()async{
                         if (formkey.currentState!.validate()) {
                           if(name==null){
-                            var studentAuth = await FirebaseAuth.instance
+                            var driverAuth = await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
                                 email: emailcontroller.text,
                                 password: passwordcontroller.text
@@ -270,8 +269,9 @@ class _AdminDriversDataState extends State<AdminDriversData> {
 
                             CollectionReference driverRef =
                             FirebaseFirestore.instance.collection('Drivers');
-                            driverRef.doc(idcontroller.text).set({
+                            driverRef.doc(driverAuth.user?.uid).set({
                               'name': namecontroller.text,
+                              'id'  : idcontroller.text,
                               'email': emailcontroller.text,
                               'tele-num': tele_numcontroller.text,
                               'Bus id': bus_idcontroller.text,
@@ -281,6 +281,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                             var studentRef = FirebaseFirestore.instance.collection('Drivers');
                             studentRef.doc(id).update({
                               'name': namecontroller.text,
+                              'id'  : idcontroller.text,
                               'email': emailcontroller.text,
                               'tele-num': tele_numcontroller.text,
                               'Bus id': bus_idcontroller.text,
