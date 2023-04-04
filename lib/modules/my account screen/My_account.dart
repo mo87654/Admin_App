@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:admin_app/modules/login%20screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../shared/component/SignoutMessage.dart';
 import '../../shared/component/colors.dart';
 import '../AboutUs Screen/AboutUs.dart';
@@ -27,10 +29,8 @@ class _MyAccountState extends State<MyAccount> {
   Color lpurplet = const Color.fromRGBO(0, 102, 128, 0.9490196078431372);
   Color white = const Color.fromRGBO(254, 254, 254, 1.0);
 
-  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: app_color(),
@@ -185,14 +185,15 @@ class _MyAccountState extends State<MyAccount> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) => SignOutMessage(),
-                        // onSignOut: (){
-                        //   // await auth.signOut();
-                        //   // Navigator.push(
-                        //   //     context,
-                        //   //     MaterialPageRoute(builder: (context) => Login(),));
-                        // },
-
+                      builder: (BuildContext context) => SignOutMessage(
+                        onSignOut: () async{
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login(),));
+                          // Close the dialog
+                        },
+                      ),
                     );
                     //
                   },
