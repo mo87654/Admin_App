@@ -1,5 +1,4 @@
 
-import 'package:admin_app/Provider/auth_Provider.dart';
 import 'package:admin_app/modules/forgetPassword%20screens/forgetPassword4.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +86,6 @@ changePassword({newPassword, confirmNewPassword}) async {
 
   @override
   Widget build(BuildContext context) {
-    var prov = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
