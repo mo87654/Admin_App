@@ -1,10 +1,9 @@
-import 'package:admin_app/Provider/auth_Provider.dart';
+import 'package:admin_app/modules/New_forgetPasswordScreen/email_Screen.dart';
 import 'package:admin_app/modules/home%20screen/admin_Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-import '../forgetPassword screens/forgetPassword1.dart';
+
 
 class Login extends StatefulWidget {
   @override
@@ -14,9 +13,11 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   var formkey = GlobalKey<FormState>();
-  var loginkey = GlobalKey<ScaffoldMessengerState>();
-  var emailcontroller = TextEditingController();
-  var passwordcontroller = TextEditingController();
+
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+
+
   bool showpassword = true;
   bool isLoading = false;
   final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
@@ -31,6 +32,8 @@ class _LoginState extends State<Login> {
             .signInWithEmailAndPassword(
           email: emailcontroller.text,
           password: passwordcontroller.text,);
+
+
         setState(() {
           isLoading = true;
         });
@@ -42,32 +45,37 @@ class _LoginState extends State<Login> {
         if (e.code == 'invalid-email') {
           print("not valid email");
           setState(() {
-            isLoading = true;
-          });
-          loginkey.currentState?.showSnackBar(
-              SnackBar(content: Text(e.message ?? "")));
-          setState(() {
             isLoading = false;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(backgroundColor: Colors.black38,
+                  padding: EdgeInsets.symmetric(vertical: 18),
+                  content: Text(e.message ??"",style: TextStyle(fontSize: 15),)),);
           });
+
         }
         else if (e.code == 'wrong-password') {
           print("not valid email");
           setState(() {
             isLoading = false;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(backgroundColor: Colors.black38,
+                  padding: EdgeInsets.symmetric(vertical: 18),
+                  content: Text(e.message ??"",style: TextStyle(fontSize: 15),)),);
           });
-          loginkey.currentState?.showSnackBar(
-              SnackBar(content: Text(e.message ?? "")));
-          setState(() {
-            isLoading = false;
-          });
+
+
         }
 
 
       }catch (e) {
         setState(() {
           isLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(backgroundColor: Colors.black38,
+                padding: EdgeInsets.symmetric(vertical: 18),
+                content: Text(e.toString(),style: TextStyle(fontSize: 15),)),);
         });
-        return(e.toString());
+
       }
 
     } else{return null;}
@@ -76,13 +84,13 @@ class _LoginState extends State<Login> {
 
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
-      key: loginkey,
       child: Scaffold(
         body: SingleChildScrollView(
           child: Form(
             key: formkey,
             child: Column(
               children: [
+                SizedBox(height: 70,),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 15),
                   child: Image(
@@ -93,7 +101,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 40,
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.only(
@@ -214,14 +222,14 @@ class _LoginState extends State<Login> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ForgetPassword1()
+                              builder: (context) => forgetPassword()
                           )
                       );
                     },
                     child: Text(
                       'Forget Password?',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 16,
                       ),
                     ),
                   ),

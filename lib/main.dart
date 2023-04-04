@@ -47,6 +47,9 @@ class MyApp extends StatelessWidget {
           const ResponsiveBreakpoint.autoScale(2460, name: '2XL'),
         ],),
       home: isLogin == false? Login(): AdminHome(),
+      routes: {
+
+      },
 
       debugShowCheckedModeBanner: false,
     );

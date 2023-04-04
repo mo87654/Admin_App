@@ -1,8 +1,10 @@
 
+
+import 'package:admin_app/modules/my%20account%20screen/My_account.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../shared/component/colors.dart';
-import '../my account screen/My_account.dart';
-//import 'package:flutter/src/material/colors.dart';
+
 
 
 
@@ -12,10 +14,62 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+
   var formkey = GlobalKey<FormState>();
+
+
+
+  @override
+  void dispose() {
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmNewPasswordController.dispose();
+    super.dispose();
+  }
+
   bool showpassword1 = true;
   bool showpassword2 = true;
   bool showpassword3 = true;
+
+  TextEditingController currentPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmNewPasswordController = TextEditingController();
+
+  final user = FirebaseAuth.instance.currentUser;
+
+  ChangePassword123()async{
+    try{
+      final user = FirebaseAuth.instance.currentUser;
+      final email = user!.email;
+
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.toString(),
+        password: currentPasswordController.text,
+      );
+      await user.updatePassword(newPasswordController.text.trim());
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyAccount(),));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(backgroundColor: Colors.black38,
+            padding: EdgeInsets.symmetric(vertical: 18),
+            content: Text("  your password has been changed successfully ",style: TextStyle(fontSize: 20),)),);
+
+
+    }on FirebaseAuthException catch(e){
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(backgroundColor: Colors.black38,
+              padding: EdgeInsets.symmetric(vertical: 18),
+              content: Text(e.message ??"",style: TextStyle(fontSize: 15),)),);
+      });
+
+
+    }
+
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
 
@@ -26,7 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           Navigator.pop(context);
           },
         ),
-        title: Text ('Chang Password'),
+        title: Text ('Change Password'),
         backgroundColor: app_color(),
 
 
@@ -74,12 +128,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                   keyboardType: TextInputType.visiblePassword,
                   textAlignVertical: TextAlignVertical.top,
                   textInputAction: TextInputAction.next,
+                  controller: currentPasswordController,
                   obscureText: showpassword1,
 
                   validator: (value)
                   {
                     if (value!.isEmpty){
                       return 'Password required';
+                    }else if (value.length < 6 ){
+                      return "password should be at least 6 characters";
+
                     }
                     return null;
                   },
@@ -121,10 +179,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                   textAlignVertical: TextAlignVertical.top,
                   textInputAction: TextInputAction.next,
                   obscureText: showpassword2,
+                  controller: newPasswordController,
                   validator: (value)
                   {
                     if (value!.isEmpty){
                       return 'New password required';
+                    }else if (value.length < 6 ){
+                      return "password should be at least 6 characters";
+
                     }
                     return null;
                   },
@@ -166,10 +228,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                   textAlignVertical: TextAlignVertical.top,
                   textInputAction: TextInputAction.done,
                   obscureText: showpassword3,
+                  controller: confirmNewPasswordController,
                   validator: (value)
                   {
                     if (value!.isEmpty){
                       return 'Confirm New Password required';
+
+                    } else if (value != newPasswordController.text) {
+                      return 'Passwords do not match';
+                    }else if (value.length < 6 ){
+                      return "password should be at least 6 characters";
+
                     }
                     return null;
                   },
@@ -184,10 +253,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                 width: double.infinity,
                 padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
                 child: MaterialButton(
-                  onPressed: (){
-                    if (formkey.currentState!.validate())
-                    {
-
+                  onPressed: ()async{
+                    if (formkey.currentState!.validate()) {
+                      ChangePassword123();
                     }
                   },
                   child:Text(

@@ -1,11 +1,8 @@
 
-import 'package:admin_app/Provider/auth_Provider.dart';
-import 'package:admin_app/models/search_model.dart';
 import 'package:admin_app/modules/home%20screen/search_delegate.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../shared/component/colors.dart';
 import '../add buses data screen/adminBuses.dart';
 import '../add drivers data screen/adminDrivers.dart';
@@ -24,21 +21,15 @@ class _AdminHomeState extends State<AdminHome> {
   List names=[];
   List busIDs = [];
   List busDriver = [];
-
   getNames(String collection)async{
     names.clear();
     var dataref = FirebaseFirestore.instance.collection(collection);
     var response = await dataref.get();
     response.docs.forEach((element) {
       setState(() {
-        /*names.add(Student_Model(
-            name: element.data()['name'],
-            id: element.data()['id']
-        ));*/
         names.add(element.data()['name']);
       });
     });
-
   }
   getBusId()async{
     busIDs.clear();
@@ -51,7 +42,10 @@ class _AdminHomeState extends State<AdminHome> {
         busDriver.add(element.data()['Driver_name']);
       });
     });
+    print(busIDs);
+    print(busDriver);
   }
+
 
   @override
   void initState() {

@@ -130,12 +130,9 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                       verificationFailed: (FirebaseAuthException e) {
 
                         setState(() {
+                          verificationFailedMessage = e.message ??"";
                           isLoading = false;
                         });
-                        setState(() {
-                          verificationFailedMessage = e.message ??"";
-                        });
-
                       },
                       codeSent: (String verificationId, int? resendToken) {
                         setState(() {
@@ -145,10 +142,6 @@ class _ForgetPassword1State extends State<ForgetPassword1> {
                             context,
                             MaterialPageRoute(builder: (context) => ForgetPassword2(phoneNumber: phoneNumController.text, verificationId: verificationId),));
                       },
-    // Navigator.of(context)
-    //     .pushReplacement(PageRouteBuilder(
-    // pageBuilder: (_,__,___) =>ForgetPassword2(phoneNumber:phoneNumController.text ,verificationId: verificationId)));
-    // },
 
                       codeAutoRetrievalTimeout: (String verificationId) {
                         Navigator.push(
