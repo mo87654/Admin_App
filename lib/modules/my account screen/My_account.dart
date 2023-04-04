@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:admin_app/modules/login%20screen/login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,18 +23,6 @@ class _MyAccountState extends State<MyAccount> {
   bool status = false;
   PickedFile? _imageFile;
   String? image64;
-
-  final user =  FirebaseAuth.instance.currentUser!;
-
-  Future<Object> getuserinfo() async {
-    final CollectionReference users = FirebaseFirestore.instance.collection('admin');
-    final String uid = user.uid;
-    final result = await  users.doc(uid).get();
-    return result.data()??['name'];
-
-  }
-
-
 
   final ImagePicker picker = ImagePicker();
   Color purple = const Color.fromRGBO(38, 107, 128, 0.9490196078431372);
@@ -68,42 +55,18 @@ class _MyAccountState extends State<MyAccount> {
               children: [
                 ListTile(
                   leading: const Icon(Icons.person),
-                  title:   FutureBuilder(
-                    future: getuserinfo(),
-                    builder: (_ , AsyncSnapshot snapshot){
-                      if(snapshot.connectionState == ConnectionState.waiting){
-                        return Center( child: CircularProgressIndicator());
-                      }
-                      return Text(snapshot.data['name'].toString(),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-
-                    },
-
+                  title: const Text('User name ',
+                    style: TextStyle(
+                        fontSize: 17
+                    ),
                   ),
-
-                  subtitle:   FutureBuilder(
-                    future: getuserinfo(),
-                    builder: (_ , AsyncSnapshot snapshot){
-                      if(snapshot.connectionState == ConnectionState.waiting){
-                        return Center( child: CircularProgressIndicator());
-                      }
-                      return Text(snapshot.data['email'].toString(),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-
-                    },
-
+                  subtitle: const Text('E-mail address',
+                    style: TextStyle(
+                        fontSize: 17
+                    ),
                   ),
-
                   onTap: () {
-                   // Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                 ),
                 const Padding(
@@ -241,8 +204,7 @@ class _MyAccountState extends State<MyAccount> {
 
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: ListView(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,49 +264,49 @@ class _MyAccountState extends State<MyAccount> {
 
 
 
+
+
             Padding(
               padding: const EdgeInsets.only(top: 25, left: 15),
               child: Column(
+
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: EdgeInsets.only(bottom: 25.0),
-                      child:   FutureBuilder(
-                        future: getuserinfo(),
-                        builder: (_ , AsyncSnapshot snapshot){
+                      child: Text(FirebaseAuth.instance.currentUser!.displayName??"no name",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
 
-                          if(snapshot.connectionState == ConnectionState.waiting){
-                            return Center( child: CircularProgressIndicator());
-                          }
-                          return Text(snapshot.data['name'].toString(),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-
-                            ),
-                          );
-                        },
                       ),
-
                     ),
 
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: Text('Student Name',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
 
-                    FutureBuilder(
-                      future: getuserinfo(),
-                      builder: (_ , AsyncSnapshot snapshot){
-                        if(snapshot.connectionState == ConnectionState.waiting){
-                          return Center( child: CircularProgressIndicator());
-                        }
-                        return Text(snapshot.data['email'].toString(),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
 
-                      },
+                        ),
 
+                      ),
                     ),
+
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: Text(FirebaseAuth.instance.currentUser!.email!,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+
+                      ),
+                    )
 
                   ]
 

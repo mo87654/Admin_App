@@ -43,8 +43,7 @@ dependencies:
   timer_count_down: ^2.2.2
   country_picker: ^2.0.20
   responsive_framework: ^0.2.0
-  firebase_database: ^10.1.0
-  http: ^0.13.3
+
 
 dev_dependencies:
   flutter_test:

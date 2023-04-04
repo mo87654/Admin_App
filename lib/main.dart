@@ -1,3 +1,4 @@
+
 import 'package:admin_app/modules/home%20screen/admin_Home.dart';
 import 'package:admin_app/modules/login%20screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,9 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
-bool? isLogin ;
+bool isLogin = false;
 
 void main() async{
+  // FirebaseApp.initializeApp(/*context=*/ this);
+  // FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
+  // firebaseAppCheck.installAppCheckProviderFactory(
+  //     PlayIntegrityAppCheckProviderFactory.getInstance());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   var user = FirebaseAuth.instance.currentUser;
@@ -19,7 +24,7 @@ void main() async{
     isLogin = true ;
   }
 
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,13 +40,16 @@ class MyApp extends StatelessWidget {
         minWidth: 480,
         defaultScale: true,
         breakpoints: [
-          ResponsiveBreakpoint.autoScale(480, name: 'SM'),
-          ResponsiveBreakpoint.autoScale(800, name: 'MD'),
-          ResponsiveBreakpoint.autoScale(1000, name: 'LG'),
-          ResponsiveBreakpoint.autoScale(1200, name: 'XL'),
-          ResponsiveBreakpoint.autoScale(2460, name: '2XL'),
+          const ResponsiveBreakpoint.autoScale(480, name: 'SM'),
+          const ResponsiveBreakpoint.autoScale(800, name: 'MD'),
+          const ResponsiveBreakpoint.autoScale(1000, name: 'LG'),
+          const ResponsiveBreakpoint.autoScale(1200, name: 'XL'),
+          const ResponsiveBreakpoint.autoScale(2460, name: '2XL'),
         ],),
       home: isLogin == false? Login(): AdminHome(),
+      routes: {
+
+      },
 
       debugShowCheckedModeBanner: false,
     );

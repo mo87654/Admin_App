@@ -29,27 +29,20 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   List docData= [];
 
   getID() async {
+    docData.clear();
      var collId = FirebaseFirestore.instance.collection('Students');
      await collId.where('name', isEqualTo: name).get()
          .then((value) {
        value.docs.forEach((element) {
+         docData.add(element.data());
          id = element.id;
        });
-       getDataWithID();
+       assignData();
      });
   }
-
-  getDataWithID() async {
-    docData.clear();
-    var idDataRef = FirebaseFirestore.instance.collection('Students').doc(id);
-    var result = await idDataRef.get();
-    docData.add(result.data());
-    assignData();
-  }
-
   assignData(){
     namecontroller.text = docData[0]['name'];
-    idcontroller.text = id;
+    idcontroller.text = docData[0]['id'];
     selectedItem= docData[0]['gender'];
     emailcontroller.text= docData[0]['email'];
     addresscontroller.text= docData[0]['address'];
@@ -252,6 +245,25 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
               SizedBox(
                 height: 10,
               ),
+              Container(
+                child: name==null? null:
+                TextButton(
+                    onPressed: ()async{
+                      await FirebaseAuth
+                          .instance
+                          .sendPasswordResetEmail(email: emailcontroller.text);
+                    },
+                    child: Text(
+                      'Reset Password',
+                      style: TextStyle(
+                        fontSize: 19,
+                      ),
+                    )
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               TextFormField(
                 style: TextStyle(
                   fontSize: 20,
@@ -377,16 +389,17 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                             var studentAuth = await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
                                 email: emailcontroller.text,
-                                password: passwordcontroller.text
+                                password: passwordcontroller.text,
                             );
 
                             CollectionReference studentRef =
                             FirebaseFirestore.instance.collection('Students');
-                            studentRef.doc(idcontroller.text).set({
+                            studentRef.doc(studentAuth.user?.uid).set({
                               'name'       : namecontroller.text,
+                              'id'         : idcontroller.text,
                               'gender'     : selectedItem,
                               'email'      : emailcontroller.text,
-                              'address'    : addresscontroller,
+                              'address'    : addresscontroller.text,
                               'tele-num'   : tele_numcontroller.text,
                               'grad'       : gradcontroller.text,
                               'MAC-address': mac_addcontroller.text,
@@ -397,6 +410,7 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                             var studentRef = FirebaseFirestore.instance.collection('Students');
                             studentRef.doc(id).update({
                               'name'       : namecontroller.text,
+                              'id'         : idcontroller.text,
                               'gender'     : selectedItem,
                               'email'      : emailcontroller.text,
                               'address'    : addresscontroller.text,

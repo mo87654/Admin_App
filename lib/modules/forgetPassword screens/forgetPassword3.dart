@@ -3,50 +3,83 @@ import 'package:admin_app/modules/forgetPassword%20screens/forgetPassword4.dart'
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../login screen/login.dart';
+import 'package:provider/provider.dart';
+
 
 class ForgetPassword3 extends StatefulWidget {
+  ForgetPassword3();
+  // final String verificationId;
+  // final String phoneNumber;
+  // final String smsCode;
+
+
   @override
   State<ForgetPassword3> createState() => _ForgetPassword3State();
 }
+
 
 class _ForgetPassword3State extends State<ForgetPassword3> {
 var formkey = GlobalKey<FormState>();
 bool showpassword1 = true;
 bool showpassword2 = true;
-var emailController = TextEditingController();
-var oldPasswordController = TextEditingController();
+
 var newPasswordController = TextEditingController();
+var confirmPasswordController = TextEditingController();
 bool isLoading = false;
-var user = FirebaseAuth.instance.currentUser;
 
-changePassword({email, oldPassword, newPassword}) async {
+User? user = FirebaseAuth.instance.currentUser;
 
 
+ // Future changePassword() async {
+ //    try{
+ //      FirebaseAuth auth = FirebaseAuth.instance;
+ //      await auth.signInWithPhoneNumber();
+ //      final AuthCredential credential = PhoneAuthProvider.credential(
+ //        verificationId: widget.,
+ //        smsCode: widget., // User entered SMS code
+ //      );
+ //      await auth.currentUser!.updatePassword(newPasswordController.text);
+ //      setState(() {
+ //        isLoading = true;
+ //      });
+ //
+ //    }on FirebaseAuthException catch (e){
+ //      if (e.code == 'wrong-password') {
+ //        setState(() {
+ //          isLoading = false;
+ //        });
+ //        return(e.message ??"") ;
+ //    }
+ //
+ //  }catch (e) {
+ //      setState(() {
+ //        isLoading = false;
+ //      });
+ //      return(e.toString());
+ //    }
+ //  return null;
+ //  }
+changePassword({newPassword, confirmNewPassword}) async {
   try {
-
     // if(user != null){
-    var credential = EmailAuthProvider.credential(email: email, password:oldPassword );
+    // AuthCredential credential = EmailAuthProvider.credential(email: user.email, password:confirmNewPassword );
 
-    await user!.reauthenticateWithCredential(credential).then((value) {
+    // await user!.reauthenticateWithCredential(credential).then((value) {
       user!.updatePassword(newPassword);
-    }).catchError((e){
-      print(e.toString());
-    });
+    // }).catchError((e){
 
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    }
     // }
-
-  } on FirebaseAuthException catch (error) {
-    print(error.message ??"") ;
-    if (error.code == 'wrong-password') {
-      print(error.message ??"") ;
+   on FirebaseAuthException catch (e) {
+     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ??"")));
+    if (e.code == 'wrong-password') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ??"")));
     }
 
-  } catch (error) {
-    print(error.toString());
+  } catch (e) {
+    return(e.toString());
   }
-
-  return null;
 }
 
 
@@ -71,65 +104,65 @@ changePassword({email, oldPassword, newPassword}) async {
               const SizedBox(
                 height: 40,
               ),
+              // Padding(
+              //   padding: const EdgeInsetsDirectional.only(
+              //     start: 20,
+              //     end: 20,
+              //   ),
+              //   child: TextFormField(
+              //     style: const TextStyle(
+              //       fontSize: 20,
+              //     ),
+              //     decoration: InputDecoration(
+              //       floatingLabelStyle: TextStyle(
+              //         fontSize: 18,
+              //       ),
+              //       border: OutlineInputBorder(),
+              //       labelText: 'E-mail',
+              //       prefixIcon: Icon(
+              //           Icons.mail
+              //       ),
+              //     ),
+              //     keyboardType: TextInputType.emailAddress,
+              //     textAlignVertical: TextAlignVertical.top,
+              //     textInputAction: TextInputAction.next,
+              //     controller: emailController,
+              //     onSaved: (value) {
+              //       emailController.text = value!;
+              //     },
+              //
+              //     validator: (value) {
+              //       if (value!.isEmpty) {
+              //         setState(() {
+              //           isLoading = false;
+              //         });
+              //         return 'E-mail address required';
+              //       }
+              //       else if (value.length < 5) {
+              //         setState(() {
+              //           isLoading = false;
+              //         });
+              //         return "please, write a valid Email ";
+              //       }
+              //       // final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
+              //       // if (!emailRegex.hasMatch(value)) {
+              //       //   isLoading =false;
+              //       //   return 'Please enter a valid email address ';
+              //       //}
+              //
+              //     },
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 25,
+              // ),
               Padding(
                 padding: const EdgeInsetsDirectional.only(
                   start: 20,
                   end: 20,
                 ),
                 child: TextFormField(
-                  style: const TextStyle(
-                    fontSize: 20,
-                  ),
-                  decoration: InputDecoration(
-                    floatingLabelStyle: TextStyle(
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(),
-                    labelText: 'E-mail',
-                    prefixIcon: Icon(
-                        Icons.mail
-                    ),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  textAlignVertical: TextAlignVertical.top,
-                  textInputAction: TextInputAction.next,
-                  controller: emailController,
-                  onSaved: (value) {
-                    emailController.text = value!;
-                  },
-
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      setState(() {
-                        isLoading = false;
-                      });
-                      return 'E-mail address required';
-                    }
-                    else if (value.length < 5) {
-                      setState(() {
-                        isLoading = false;
-                      });
-                      return "please, write a valid Email ";
-                    }
-                    // final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
-                    // if (!emailRegex.hasMatch(value)) {
-                    //   isLoading =false;
-                    //   return 'Please enter a valid email address ';
-                    //}
-
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.only(
-                  start: 20,
-                  end: 20,
-                ),
-                child: TextFormField(
-                  controller: oldPasswordController,
+                  controller: newPasswordController,
                   style: const TextStyle(
                     fontSize: 20,
                   ),
@@ -139,7 +172,7 @@ changePassword({email, oldPassword, newPassword}) async {
                       ),
                       //contentPadding: EdgeInsetsDirectional.only(top: 10,start: 10,end: 10, bottom: 10 ),
                       border: OutlineInputBorder(),
-                      labelText:'Current Password',
+                      labelText:'New Password',
                       prefixIcon: const Icon(
                         Icons.lock_reset,
                       ),
@@ -166,9 +199,16 @@ changePassword({email, oldPassword, newPassword}) async {
                   validator: (value)
                   {
                     if (value!.isEmpty){
+                      setState(() {
+                        isLoading = false;
+                      });
                       return 'Password required';
                     }
                     if (value.length < 6) {
+                      setState(() {
+                        isLoading = false;
+                      });
+
                       return 'Password must be at least 6 characters';
                     }
                     return null;
@@ -184,7 +224,7 @@ changePassword({email, oldPassword, newPassword}) async {
                   end: 20
                 ),
                 child: TextFormField(
-                 controller: newPasswordController,
+                 controller: confirmPasswordController,
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -194,7 +234,7 @@ changePassword({email, oldPassword, newPassword}) async {
                       ),
                       //contentPadding: EdgeInsetsDirectional.only(top: 10,start: 10,end: 10, bottom: 10 ),
                       border: OutlineInputBorder(),
-                      labelText:' New Password',
+                      labelText:'Confirm New Password',
                       prefixIcon: Icon(
                         Icons.lock_reset,
                       ),
@@ -213,14 +253,24 @@ changePassword({email, oldPassword, newPassword}) async {
 
                       )
                   ),
-                  onSaved:  (newValue) => newPasswordController.text,
+                  onSaved:  (newValue) => confirmPasswordController.text,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: showpassword2,
                   textAlignVertical: TextAlignVertical.top,
                   validator: (value)
                   {
                     if (value!.isEmpty){
+                      setState(() {
+                        isLoading = false;
+                      });
+
                       return 'Password required';
+
+                    }if (newPasswordController.text != confirmPasswordController.text) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      return  "please enter the correct password";
                     }
                     return null;
                   },
@@ -234,19 +284,17 @@ changePassword({email, oldPassword, newPassword}) async {
                 width: double.infinity,
                 padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
                 child: MaterialButton(
-                  onPressed: ()async{
+                  onPressed: () async{
                     if (formkey.currentState!.validate()) {
-                      var user =  await changePassword(
-                        email:emailController.text,
-                        oldPassword: oldPasswordController.text,
-                        newPassword: newPasswordController.text,
-                      );
-                      if (user != null)
+                      var auth = await changePassword();
 
-                      print("changed");
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword4(),));
+                       if (auth != null) {
+                        print("changed");
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) => ForgetPassword4(),));
+                       }
                     }
-                  },
+                    },
                   child: isLoading
                       ? SpinKitCircle(
                     color: Colors.white,
@@ -260,7 +308,7 @@ changePassword({email, oldPassword, newPassword}) async {
                   ),
                   color: Color(0xff014EB8),
                   shape:RoundedRectangleBorder (
-                    borderRadius: BorderRadius.circular (10.0), ),
+                    borderRadius: BorderRadius.circular (10.0),),
                 ),
               ),
             ],
