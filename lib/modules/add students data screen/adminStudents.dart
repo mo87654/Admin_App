@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
+import '../../shared/component/buttons.dart';
 import '../my account screen/My_account.dart';
 class AdminStudentsData extends StatefulWidget{
   AdminStudentsData({
@@ -379,93 +380,123 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: MaterialButton(
-                      onPressed:() async {
-                        if (formkey.currentState!.validate()) {
-                          if(name==null){
-                            var studentAuth = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                email: emailcontroller.text,
-                                password: passwordcontroller.text,
-                            );
+                  appButton(
+                    width: 150,
+                    text: "Submit",
+                    function:() async {
+                      if (formkey.currentState!.validate()) {
+                        if(name==null){
+                          var studentAuth = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                            email: emailcontroller.text,
+                            password: passwordcontroller.text,
+                          );
 
-                            CollectionReference studentRef =
-                            FirebaseFirestore.instance.collection('Students');
-                            studentRef.doc(studentAuth.user?.uid).set({
-                              'name'       : namecontroller.text,
-                              'id'         : idcontroller.text,
-                              'gender'     : selectedItem,
-                              'email'      : emailcontroller.text,
-                              'address'    : addresscontroller.text,
-                              'tele-num'   : tele_numcontroller.text,
-                              'grad'       : gradcontroller.text,
-                              'MAC-address': mac_addcontroller.text,
-                              'Bus id'     : bus_idcontroller.text,
-                            });
-                            Navigator.pop(context);
-                          }else{
-                            var studentRef = FirebaseFirestore.instance.collection('Students');
-                            studentRef.doc(id).update({
-                              'name'       : namecontroller.text,
-                              'id'         : idcontroller.text,
-                              'gender'     : selectedItem,
-                              'email'      : emailcontroller.text,
-                              'address'    : addresscontroller.text,
-                              'tele-num'   : tele_numcontroller.text,
-                              'grad'       : gradcontroller.text,
-                              'MAC-address': mac_addcontroller.text,
-                              'Bus id'     : bus_idcontroller.text,
-                            });
-                            Navigator.pop(context);
-                            print(mac_addcontroller.text);
-                          }
+                          CollectionReference studentRef =
+                          FirebaseFirestore.instance.collection('Students');
+                          studentRef.doc(studentAuth.user?.uid).set({
+                            'name'       : namecontroller.text,
+                            'id'         : idcontroller.text,
+                            'gender'     : selectedItem,
+                            'email'      : emailcontroller.text,
+                            'address'    : addresscontroller.text,
+                            'tele-num'   : tele_numcontroller.text,
+                            'grad'       : gradcontroller.text,
+                            'MAC-address': mac_addcontroller.text,
+                            'Bus id'     : bus_idcontroller.text,
+                          });
+                          Navigator.pop(context);
+                        }else{var studentRef = FirebaseFirestore.instance.collection('Students');
+                          studentRef.doc(id).update({
+                            'name'       : namecontroller.text,
+                            'id'         : idcontroller.text,
+                            'gender'     : selectedItem,
+                            'email'      : emailcontroller.text,
+                            'address'    : addresscontroller.text,
+                            'tele-num'   : tele_numcontroller.text,
+                            'grad'       : gradcontroller.text,
+                            'MAC-address': mac_addcontroller.text,
+                            'Bus id'     : bus_idcontroller.text,
+                          });
+                          Navigator.pop(context);
+                          print(mac_addcontroller.text);
                         }
+                      }
                       },
-                      child:Text(
-                        'Submit',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-
-                        ),
-
                       ),
-                      color: Color(0xff014EB8),
-                      shape:RoundedRectangleBorder (
-                        borderRadius: BorderRadius.circular (10.0), ),
-
-
-                    ),
-                  ),
+                  // Container(
+                  //   height: 40,
+                  //   width: 120,
+                  //
+                  //   child: MaterialButton(
+                  //     onPressed:() async {
+                  //       if (formkey.currentState!.validate()) {
+                  //         if(name==null){
+                  //           var studentAuth = await FirebaseAuth.instance
+                  //               .createUserWithEmailAndPassword(
+                  //               email: emailcontroller.text,
+                  //               password: passwordcontroller.text,
+                  //           );
+                  //
+                  //           CollectionReference studentRef =
+                  //           FirebaseFirestore.instance.collection('Students');
+                  //           studentRef.doc(studentAuth.user?.uid).set({
+                  //             'name'       : namecontroller.text,
+                  //             'id'         : idcontroller.text,
+                  //             'gender'     : selectedItem,
+                  //             'email'      : emailcontroller.text,
+                  //             'address'    : addresscontroller.text,
+                  //             'tele-num'   : tele_numcontroller.text,
+                  //             'grad'       : gradcontroller.text,
+                  //             'MAC-address': mac_addcontroller.text,
+                  //             'Bus id'     : bus_idcontroller.text,
+                  //           });
+                  //           Navigator.pop(context);
+                  //         }else{
+                  //           var studentRef = FirebaseFirestore.instance.collection('Students');
+                  //           studentRef.doc(id).update({
+                  //             'name'       : namecontroller.text,
+                  //             'id'         : idcontroller.text,
+                  //             'gender'     : selectedItem,
+                  //             'email'      : emailcontroller.text,
+                  //             'address'    : addresscontroller.text,
+                  //             'tele-num'   : tele_numcontroller.text,
+                  //             'grad'       : gradcontroller.text,
+                  //             'MAC-address': mac_addcontroller.text,
+                  //             'Bus id'     : bus_idcontroller.text,
+                  //           });
+                  //           Navigator.pop(context);
+                  //           print(mac_addcontroller.text);
+                  //         }
+                  //       }
+                  //     },
+                  //     child:Text(
+                  //       'Submit',
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 17,
+                  //
+                  //       ),
+                  //
+                  //     ),
+                  //     color: Color(0xff014EB8),
+                  //     shape:RoundedRectangleBorder (
+                  //       borderRadius: BorderRadius.circular (10.0), ),
+                  //
+                  //
+                  //   ),
+                  // ),
                   SizedBox(
-                    width: 50,
-                  ),
-                  Container(
-                    height: 40,
                     width: 120,
-                    child: MaterialButton(
-                      onPressed: ()  {
-                        Navigator.pop(context);
-                      },
-                      child:Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-
-                        ),
-
-                      ),
-                      color: Color(0xff828D9A),
-                      shape:RoundedRectangleBorder (
-                        borderRadius: BorderRadius.circular (10.0), ),
-
-
-                    ),
                   ),
+                  appButton(
+
+                      width: 150,
+                      text: "Cancel",
+                      buttonColor: Color(0xff828D9A),
+                      function: (){
+                        Navigator.pop(context);
+                      }),
                 ],
               ),
             ],

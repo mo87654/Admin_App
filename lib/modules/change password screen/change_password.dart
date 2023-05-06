@@ -3,6 +3,7 @@
 import 'package:admin_app/modules/my%20account%20screen/My_account.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../shared/component/buttons.dart';
 import '../../shared/component/colors.dart';
 
 
@@ -16,6 +17,7 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
 
   var formkey = GlobalKey<FormState>();
+  bool isLoading = false;
 
 
 
@@ -248,59 +250,33 @@ class _ChangePasswordState extends State<ChangePassword> {
               SizedBox(
                   height: 130.0
               ),
-              Container(
-                height: 45,
-                width: double.infinity,
-                padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
-                child: MaterialButton(
-                  onPressed: ()async{
-                    if (formkey.currentState!.validate()) {
-                      ChangePassword123();
-                    }
-                  },
-                  child:Text(
-                    'Save',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
 
-                    ),
+              appButton(
+                isLoading: isLoading,
+                text: 'Save',
+                function: ()async{
+                  if (formkey.currentState!.validate()) {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    ChangePassword123();
 
-                  ),
-                  color: Color(0xff014EB8),
-                  shape:RoundedRectangleBorder (
-                    borderRadius: BorderRadius.circular (10.0), ),
-
-
-                ),
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                },
               ),
               SizedBox(
                 height: 25,
               ),
-              Container(
-                height: 45,
-                width: double.infinity,
-                padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
-                child: MaterialButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                  child:Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-
-                    ),
-
-                  ),
-                  color: Color(0xff818181),
-                  shape:RoundedRectangleBorder (
-                    borderRadius: BorderRadius.circular (10.0), ),
-
-
-                ),
-              ),            //cancel
+              appButton(
+                buttonColor:  Color(0xff818181),
+                text: 'Cancel',
+                function: (){
+                  Navigator.pop(context);
+                },
+              ),           //cancel
 
 
 

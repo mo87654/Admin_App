@@ -1,3 +1,4 @@
+import 'package:admin_app/shared/component/buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
@@ -159,72 +160,104 @@ class _AdminBusesDataState extends State<AdminBusesData> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: MaterialButton(
-                      onPressed: () {
-                        if (formkey.currentState!.validate())
-                        {
-                          if(id==''){
-                            CollectionReference busRef =
-                            FirebaseFirestore.instance.collection('Buses');
-                            busRef.doc(busID_controller.text).set({
-                              'Driver_name': driverName_controller.text,
-                              'Driver_ID': driverID_controller.text,
-                            });
-                          }else{
-                            var studentRef = FirebaseFirestore.instance.collection('Buses');
-                            studentRef.doc(id).update({
-                              'Driver_name': driverName_controller.text,
-                              'Driver_ID': driverID_controller.text,
-                            });
-                          }
-                          Navigator.pop(context);
-                        }
-                      },
-                      child:Text(
-                        'Submit',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-
-                        ),
-
-                      ),
-                      color: Color(0xff014EB8),
-                      shape:RoundedRectangleBorder (
-                        borderRadius: BorderRadius.circular (10.0), ),
-
-
-                    ),
+                  appButton(
+                    width: 150,
+                    text: "Submit",
+                    function:() {
+                if (formkey.currentState!.validate())
+                {
+                  if(id==''){
+                    CollectionReference busRef =
+                    FirebaseFirestore.instance.collection('Buses');
+                    busRef.doc(busID_controller.text).set({
+                      'Driver_name': driverName_controller.text,
+                      'Driver_ID': driverID_controller.text,
+                    });
+                  }else{
+                    var studentRef = FirebaseFirestore.instance.collection('Buses');
+                    studentRef.doc(id).update({
+                      'Driver_name': driverName_controller.text,
+                      'Driver_ID': driverID_controller.text,
+                    });
+                  }
+                  Navigator.pop(context);
+                }
+                },
                   ),
+                  // Container(
+                  //   height: 40,
+                  //   width: 120,
+                  //   child: MaterialButton(
+                  //     onPressed: () {
+                  //       if (formkey.currentState!.validate())
+                  //       {
+                  //         if(id==''){
+                  //           CollectionReference busRef =
+                  //           FirebaseFirestore.instance.collection('Buses');
+                  //           busRef.doc(busID_controller.text).set({
+                  //             'Driver_name': driverName_controller.text,
+                  //             'Driver_ID': driverID_controller.text,
+                  //           });
+                  //         }else{
+                  //           var studentRef = FirebaseFirestore.instance.collection('Buses');
+                  //           studentRef.doc(id).update({
+                  //             'Driver_name': driverName_controller.text,
+                  //             'Driver_ID': driverID_controller.text,
+                  //           });
+                  //         }
+                  //         Navigator.pop(context);
+                  //       }
+                  //     },
+                  //     child:Text(
+                  //       'Submit',
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 17,
+                  //
+                  //       ),
+                  //
+                  //     ),
+                  //     color: Color(0xff014EB8),
+                  //     shape:RoundedRectangleBorder (
+                  //       borderRadius: BorderRadius.circular (10.0), ),
+                  //
+                  //
+                  //   ),
+                  // ),
                   SizedBox(
                     width: 50,
                   ),
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: MaterialButton(
-                      onPressed: (){
+                  // Container(
+                  //   height: 40,
+                  //   width: 120,
+                  //   child: MaterialButton(
+                  //     onPressed: (){
+                  //       Navigator.pop(context);
+                  //     },
+                  //     child:Text(
+                  //       'Cancel',
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 17,
+                  //
+                  //       ),
+                  //
+                  //     ),
+                  //     color: Color(0xff828D9A),
+                  //     shape:RoundedRectangleBorder (
+                  //       borderRadius: BorderRadius.circular (10.0), ),
+                  //
+                  //
+                  //   ),
+                  // ),
+                  appButton(
+
+                      width: 150,
+                      text: "Cancel",
+                      buttonColor: Color(0xff828D9A),
+                      function: (){
                         Navigator.pop(context);
-                      },
-                      child:Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-
-                        ),
-
-                      ),
-                      color: Color(0xff828D9A),
-                      shape:RoundedRectangleBorder (
-                        borderRadius: BorderRadius.circular (10.0), ),
-
-
-                    ),
-                  ),
+                      })
                 ],
               ),
             ],

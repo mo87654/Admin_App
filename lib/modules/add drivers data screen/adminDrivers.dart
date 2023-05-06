@@ -1,3 +1,4 @@
+import 'package:admin_app/shared/component/buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -254,84 +255,104 @@ class _AdminDriversDataState extends State<AdminDriversData> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: MaterialButton(
-                      onPressed: ()async{
-                        if (formkey.currentState!.validate()) {
-                          if(name==null){
-                            var driverAuth = await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                email: emailcontroller.text,
-                                password: passwordcontroller.text
-                            );
+                  appButton(
+                    width: 150,
+                    text: "Submit",
+                    function:()async{
+                      if (formkey.currentState!.validate()) {
+                        if(name==null){
+                          var driverAuth = await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                              email: emailcontroller.text,
+                              password: passwordcontroller.text
+                          );
 
-                            CollectionReference driverRef =
-                            FirebaseFirestore.instance.collection('Drivers');
-                            driverRef.doc(driverAuth.user?.uid).set({
-                              'name': namecontroller.text,
-                              'id'  : idcontroller.text,
-                              'email': emailcontroller.text,
-                              'tele-num': tele_numcontroller.text,
-                              'Bus id': bus_idcontroller.text,
-                            });
+                          CollectionReference driverRef =
+                          FirebaseFirestore.instance.collection('Drivers');
+                          driverRef.doc(driverAuth.user?.uid).set({
+                            'name': namecontroller.text,
+                            'id'  : idcontroller.text,
+                            'email': emailcontroller.text,
+                            'tele-num': tele_numcontroller.text,
+                            'Bus id': bus_idcontroller.text,
+                          });
 
-                          }else{
-                            var studentRef = FirebaseFirestore.instance.collection('Drivers');
-                            studentRef.doc(id).update({
-                              'name': namecontroller.text,
-                              'id'  : idcontroller.text,
-                              'email': emailcontroller.text,
-                              'tele-num': tele_numcontroller.text,
-                              'Bus id': bus_idcontroller.text,
-                            });
-                          }
-                          Navigator.pop(context);
+                        }else{
+                          var studentRef = FirebaseFirestore.instance.collection('Drivers');
+                          studentRef.doc(id).update({
+                            'name': namecontroller.text,
+                            'id'  : idcontroller.text,
+                            'email': emailcontroller.text,
+                            'tele-num': tele_numcontroller.text,
+                            'Bus id': bus_idcontroller.text,
+                          });
                         }
+                        Navigator.pop(context);
+                      }
                       },
-                      child:Text(
-                        'Submit',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-
-                        ),
-
-                      ),
-                      color: Color(0xff014EB8),
-                      shape:RoundedRectangleBorder (
-                        borderRadius: BorderRadius.circular (10.0), ),
-
-
-                    ),
                   ),
+                  // Container(
+                  //   height: 40,
+                  //   width: 120,
+                  //   child: MaterialButton(
+                  //     onPressed: ()async{
+                  //       if (formkey.currentState!.validate()) {
+                  //         if(name==null){
+                  //           var driverAuth = await FirebaseAuth.instance
+                  //               .createUserWithEmailAndPassword(
+                  //               email: emailcontroller.text,
+                  //               password: passwordcontroller.text
+                  //           );
+                  //
+                  //           CollectionReference driverRef =
+                  //           FirebaseFirestore.instance.collection('Drivers');
+                  //           driverRef.doc(driverAuth.user?.uid).set({
+                  //             'name': namecontroller.text,
+                  //             'id'  : idcontroller.text,
+                  //             'email': emailcontroller.text,
+                  //             'tele-num': tele_numcontroller.text,
+                  //             'Bus id': bus_idcontroller.text,
+                  //           });
+                  //
+                  //         }else{
+                  //           var studentRef = FirebaseFirestore.instance.collection('Drivers');
+                  //           studentRef.doc(id).update({
+                  //             'name': namecontroller.text,
+                  //             'id'  : idcontroller.text,
+                  //             'email': emailcontroller.text,
+                  //             'tele-num': tele_numcontroller.text,
+                  //             'Bus id': bus_idcontroller.text,
+                  //           });
+                  //         }
+                  //         Navigator.pop(context);
+                  //       }
+                  //     },
+                  //     child:Text(
+                  //       'Submit',
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 17,
+                  //
+                  //       ),
+                  //
+                  //     ),
+                  //     color: Color(0xff014EB8),
+                  //     shape:RoundedRectangleBorder (
+                  //       borderRadius: BorderRadius.circular (10.0), ),
+                  //
+                  //
+                  //   ),
+                  // ),
                   SizedBox(
                     width: 50,
                   ),
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: MaterialButton(
-                      onPressed: (){
+                  appButton(
+                      width: 150,
+                      text: "Cancel",
+                      buttonColor: Color(0xff828D9A),
+                      function: (){
                         Navigator.pop(context);
-                      },
-                      child:Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-
-                        ),
-
-                      ),
-                      color: Color(0xff828D9A),
-                      shape:RoundedRectangleBorder (
-                        borderRadius: BorderRadius.circular (10.0), ),
-
-
-                    ),
-                  ),
+                      })
                 ],
               ),
             ],
