@@ -1,9 +1,7 @@
 
-import 'package:admin_app/modules/forgetPassword%20screens/forgetPassword4.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 
 
 class ForgetPassword3 extends StatefulWidget {
@@ -290,8 +288,8 @@ changePassword({newPassword, confirmNewPassword}) async {
 
                        if (auth != null) {
                         print("changed");
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => ForgetPassword4(),));
+                       //  Navigator.push(context, MaterialPageRoute(builder: (
+                       //      context) => ForgetPassword4(),));
                        }
                     }
                     },

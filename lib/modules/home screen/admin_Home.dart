@@ -98,7 +98,7 @@ class _AdminHomeState extends State<AdminHome> {
               //color: Colors.indigo,
               //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
               decoration: BoxDecoration(
-                  color: Colors.indigo,
+                  color: app_color() ,
                   borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
 
               ),
@@ -124,9 +124,8 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Container(
                       width: 159,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: app_color(),
                           borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10) )
-
                       ),
 
                       //alignment: Alignment.centerRight,
@@ -165,7 +164,7 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Container(
                       width: 159,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: app_color(),
                           borderRadius: BorderRadius.only(bottomRight:Radius.circular(10) )
 
                       ),
@@ -208,7 +207,7 @@ class _AdminHomeState extends State<AdminHome> {
               //color: Colors.indigo,
               //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
               decoration: BoxDecoration(
-                  color: Colors.indigo,
+                  color: app_color(),
                   borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
 
               ),
@@ -234,7 +233,7 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Container(
                       width: 159,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: app_color(),
                           borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10) )
 
                       ),
@@ -274,7 +273,7 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Container(
                       width: 159,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: app_color(),
                           borderRadius: BorderRadius.only(bottomRight:Radius.circular(10) )
 
                       ),
@@ -317,7 +316,7 @@ class _AdminHomeState extends State<AdminHome> {
               //color: Colors.indigo,
               //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
               decoration: BoxDecoration(
-                  color: Colors.indigo,
+                  color: app_color(),
                   borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
 
               ),
@@ -343,7 +342,7 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Container(
                       width: 159,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: app_color(),
                           borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10) )
 
                       ),
@@ -383,7 +382,7 @@ class _AdminHomeState extends State<AdminHome> {
                   child: Container(
                       width: 159,
                       decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: app_color(),
                           borderRadius: BorderRadius.only(bottomRight:Radius.circular(10) )
 
                       ),

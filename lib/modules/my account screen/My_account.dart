@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:admin_app/modules/login%20screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -185,15 +184,7 @@ class _MyAccountState extends State<MyAccount> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) => SignOutMessage(
-                        onSignOut: () async{
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => Login(),));
-                          // Close the dialog
-                        },
-                      ),
+                      builder: (BuildContext context) => SignOutMessage(),
                     );
                     //
                   },
