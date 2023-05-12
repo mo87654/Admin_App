@@ -8,6 +8,7 @@ class AboutUsScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('About Us'),
+          backgroundColor: Color(0xff4d6aaa),
         ),
         body: SingleChildScrollView(
         child: Column(
