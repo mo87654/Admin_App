@@ -294,7 +294,7 @@ class _MyAccountState extends State<MyAccount> {
 
                             CircleAvatar(
                               backgroundColor:  const Color(0xff4d6aaa),
-                              radius: 16,
+                              radius: 19,
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
@@ -304,7 +304,7 @@ class _MyAccountState extends State<MyAccount> {
                                     );
                                   });
                                 },
-                                child: Icon(Icons.edit, color: white),
+                                child: Icon(Icons.camera_alt_outlined, color: white),
                               ),
                             ),
                           ]
@@ -319,6 +319,7 @@ class _MyAccountState extends State<MyAccount> {
                   ),
                   onPressed: () {
                     savephoto(_imageFile?.path);
+                    loadimage();
                   },
                   label: const Text("save",
                     style: TextStyle(
