@@ -275,6 +275,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                             'email': emailcontroller.text,
                             'tele-num': tele_numcontroller.text,
                             'Bus id': bus_idcontroller.text,
+                            'category': 'driver'
                           });
 
                         }else{

@@ -25,6 +25,7 @@ class _AdminBusesDataState extends State<AdminBusesData> {
   }
 
   var busID_controller = TextEditingController();
+  var busNum_controller = TextEditingController();
   var driverName_controller = TextEditingController();
   var driverID_controller = TextEditingController();
   var formkey = GlobalKey<FormState>();
@@ -40,6 +41,7 @@ class _AdminBusesDataState extends State<AdminBusesData> {
   }
   assignData(){
     busID_controller.text=id!;
+    busNum_controller.text=docData[0]['Bus_number'];
     driverName_controller.text=docData[0]['Driver_name'];
     driverID_controller.text=docData[0]['Driver_ID'];
   }
@@ -117,6 +119,29 @@ class _AdminBusesDataState extends State<AdminBusesData> {
                   fontSize: 20,
                 ),
                 textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                controller: busNum_controller,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Bus number required';
+                  }
+                },
+                decoration: InputDecoration(
+                    label: Text('Bus Number'),
+                    border: OutlineInputBorder(),
+                    floatingLabelStyle: TextStyle(
+                      fontSize: 18,
+                    )
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              TextFormField(
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+                textInputAction: TextInputAction.next,
                 controller: driverName_controller,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -170,12 +195,14 @@ class _AdminBusesDataState extends State<AdminBusesData> {
                     CollectionReference busRef =
                     FirebaseFirestore.instance.collection('Buses');
                     busRef.doc(busID_controller.text).set({
-                      'Driver_name': driverName_controller.text,
-                      'Driver_ID': driverID_controller.text,
+                      'Bus_number'  :busNum_controller.text,
+                      'Driver_name' : driverName_controller.text,
+                      'Driver_ID'   : driverID_controller.text,
                     });
                   }else{
                     var studentRef = FirebaseFirestore.instance.collection('Buses');
                     studentRef.doc(id).update({
+                      'Bus_number'  :busNum_controller.text,
                       'Driver_name': driverName_controller.text,
                       'Driver_ID': driverID_controller.text,
                     });
