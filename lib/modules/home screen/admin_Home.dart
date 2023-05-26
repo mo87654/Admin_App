@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../shared/component/colors.dart';
+import '../../shared/component/components.dart';
 import '../add buses data screen/adminBuses.dart';
 import '../add drivers data screen/adminDrivers.dart';
 import '../add students data screen/adminStudents.dart';
@@ -17,6 +18,7 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
+
   FirebaseAuth instance = FirebaseAuth.instance;
   List names=[];
   List busIDs = [];
@@ -58,8 +60,7 @@ class _AdminHomeState extends State<AdminHome> {
         );
       }
     });
-
-
+    getBusNum();
   }
   Widget build(BuildContext context) {
 
@@ -431,5 +432,17 @@ class _AdminHomeState extends State<AdminHome> {
         ),
       ),
     );
+  }
+  getBusNum() async {
+    busNum.clear();
+    await FirebaseFirestore.
+    instance.
+    collection('Buses').
+    get().then((value) {
+      value.docs.forEach((element) {
+        busNum.add(element.data()['Bus_number']);
+        print(busNum);
+      });
+    });
   }
 }
