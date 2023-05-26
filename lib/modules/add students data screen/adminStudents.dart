@@ -404,9 +404,12 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                             'grad'       : gradcontroller.text,
                             'MAC-address': mac_addcontroller.text,
                             'Bus id'     : bus_idcontroller.text,
+                            'category'   : 'user',
+                            'state'      : 0
                           });
                           Navigator.pop(context);
-                        }else{var studentRef = FirebaseFirestore.instance.collection('Students');
+                        }else
+                        {var studentRef = FirebaseFirestore.instance.collection('Students');
                           studentRef.doc(id).update({
                             'name'       : namecontroller.text,
                             'id'         : idcontroller.text,
