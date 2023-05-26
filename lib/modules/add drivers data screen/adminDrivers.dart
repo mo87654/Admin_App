@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
+import '../../shared/component/components.dart';
 import '../my account screen/My_account.dart';
 class AdminDriversData extends StatefulWidget{
   AdminDriversData({
@@ -45,7 +46,8 @@ class _AdminDriversDataState extends State<AdminDriversData> {
     idcontroller.text = docData[0]['id'];
     emailcontroller.text= docData[0]['email'];
     tele_numcontroller.text= docData[0]['tele-num'];
-    bus_idcontroller.text= docData[0]['Bus id'];
+    busNumSelectedItem= docData[0]['Bus_number'];
+    setState(() {});
   }
 
   var namecontroller = TextEditingController();
@@ -53,7 +55,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
   var emailcontroller = TextEditingController();
   var passwordcontroller = TextEditingController();
   var tele_numcontroller = TextEditingController();
-  var bus_idcontroller = TextEditingController();
+  String? busNumSelectedItem;
   bool showpassword = true;
   var formkey = GlobalKey<FormState>();
   @override
@@ -230,24 +232,34 @@ class _AdminDriversDataState extends State<AdminDriversData> {
               SizedBox(
                 height: 25,
               ),
-              TextFormField(
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-                textInputAction: TextInputAction.done,
-                controller: bus_idcontroller,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Bus ID required';
-                  }
-                },
+              DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  label: Text('Bus ID'),
                   border: OutlineInputBorder(),
-                  floatingLabelStyle: TextStyle(
-                    fontSize: 18,
-                  )
+                  label: Text(
+                    'Bus Number',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
+                items: busNum.map((String? value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value!),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    busNumSelectedItem = value;
+                  });
+                },
+                value: busNumSelectedItem,
+                validator:(value) {
+                  if (value!.isEmpty) {
+                    return 'Bus Number required';
+                  }
+                  return null;
+                },
               ),
               SizedBox(
                 height: 30,
@@ -274,7 +286,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                             'id'  : idcontroller.text,
                             'email': emailcontroller.text,
                             'tele-num': tele_numcontroller.text,
-                            'Bus id': bus_idcontroller.text,
+                            'Bus_number': busNumSelectedItem,
                             'category': 'driver'
                           });
 
@@ -285,7 +297,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                             'id'  : idcontroller.text,
                             'email': emailcontroller.text,
                             'tele-num': tele_numcontroller.text,
-                            'Bus id': bus_idcontroller.text,
+                            'Bus_number': busNumSelectedItem,
                           });
                         }
                         Navigator.pop(context);

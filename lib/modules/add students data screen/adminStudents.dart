@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
 import '../../shared/component/buttons.dart';
+import '../../shared/component/components.dart';
 import '../my account screen/My_account.dart';
 class AdminStudentsData extends StatefulWidget{
   AdminStudentsData({
@@ -44,14 +45,14 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   assignData(){
     namecontroller.text = docData[0]['name'];
     idcontroller.text = docData[0]['id'];
-    selectedItem= docData[0]['gender'];
+    genderSelectedItem= docData[0]['gender'];
     emailcontroller.text= docData[0]['email'];
     addresscontroller.text= docData[0]['address'];
     tele_numcontroller.text= docData[0]['tele-num'];
     gradcontroller.text= docData[0]['grad'];
     mac_addcontroller.text= docData[0]['MAC-address'];
-    bus_idcontroller.text= docData[0]['Bus id'];
-    print(selectedItem);
+    busNumSelectedItem= docData[0]['Bus_number'];
+    setState(() {});
   }
 
 
@@ -63,11 +64,10 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   var tele_numcontroller = TextEditingController();
   var gradcontroller = TextEditingController();
   var mac_addcontroller = TextEditingController();
-  var bus_idcontroller = TextEditingController();
   bool showpassword = true;
   var formkey = GlobalKey<FormState>();
-
-  String? selectedItem;
+  String? genderSelectedItem;
+  String? busNumSelectedItem;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,10 +177,10 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                 }).toList(),
                 onChanged: (String? value) {
                   setState(() {
-                    selectedItem = value;
+                    genderSelectedItem = value;
                   });
                 },
-                value: selectedItem,
+                value: genderSelectedItem,
               ),
               SizedBox(
                 height: 10,
@@ -354,7 +354,36 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
               SizedBox(
                 height: 10,
               ),
-              TextFormField(
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  label: Text(
+                    'Bus Number',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                items: busNum.map((String? value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value!),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    busNumSelectedItem = value;
+                  });
+                },
+                value: busNumSelectedItem,
+                validator:(value) {
+                  if (value!.isEmpty) {
+                    return 'Bus Number required';
+                  }
+                  return null;
+                },
+              ),
+              /*TextFormField(
                 style: TextStyle(
                   fontSize: 20,
                 ),
@@ -373,7 +402,7 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                     fontSize: 18
                   )
                 ),
-              ),
+              ),*/
               SizedBox(
                 height: 30,
               ),
@@ -397,13 +426,13 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                           studentRef.doc(studentAuth.user?.uid).set({
                             'name'       : namecontroller.text,
                             'id'         : idcontroller.text,
-                            'gender'     : selectedItem,
+                            'gender'     : genderSelectedItem,
                             'email'      : emailcontroller.text,
                             'address'    : addresscontroller.text,
                             'tele-num'   : tele_numcontroller.text,
                             'grad'       : gradcontroller.text,
                             'MAC-address': mac_addcontroller.text,
-                            'Bus id'     : bus_idcontroller.text,
+                            'Bus_number' : busNumSelectedItem,
                             'category'   : 'user',
                             'state'      : 0
                           });
@@ -413,13 +442,13 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                           studentRef.doc(id).update({
                             'name'       : namecontroller.text,
                             'id'         : idcontroller.text,
-                            'gender'     : selectedItem,
+                            'gender'     : genderSelectedItem,
                             'email'      : emailcontroller.text,
                             'address'    : addresscontroller.text,
                             'tele-num'   : tele_numcontroller.text,
                             'grad'       : gradcontroller.text,
                             'MAC-address': mac_addcontroller.text,
-                            'Bus id'     : bus_idcontroller.text,
+                            'Bus_number' : busNumSelectedItem,
                           });
                           Navigator.pop(context);
                           print(mac_addcontroller.text);
