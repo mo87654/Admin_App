@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../add buses data screen/adminBuses.dart';
-import '../add drivers data screen/adminDrivers.dart';
-import '../add students data screen/adminStudents.dart';
+import '../_buses data screen/adminBuses.dart';
+import '../_drivers data screen/adminDrivers.dart';
+import '../_students data screen/adminStudents.dart';
 
 class Search extends SearchDelegate{
   Search({
