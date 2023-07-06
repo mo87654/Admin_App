@@ -56,6 +56,7 @@ class _MyAccountState extends State<MyAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+
           backgroundColor: app_color(),
           leading:  Builder(
               builder: (context) {
@@ -267,10 +268,10 @@ class _MyAccountState extends State<MyAccount> {
                                 child: Text(
                                   "Profile",
                                   style: TextStyle(
-                                    fontSize: 35,
+                                    fontSize: 25,
                                     letterSpacing: 1.5,
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
