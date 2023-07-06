@@ -1,8 +1,11 @@
+
 import 'package:admin_app/modules/New_forgetPasswordScreen/email_Screen.dart';
 import 'package:admin_app/modules/home%20screen/admin_Home.dart';
+import 'package:admin_app/shared/component/buttons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../shared/component/buttons.dart';
+
 
 
 class Login extends StatefulWidget {
@@ -18,13 +21,28 @@ class _LoginState extends State<Login> {
   TextEditingController passwordcontroller = TextEditingController();
 
 
-
   bool showpassword = true;
   bool isLoading = false;
-  final emailRegex = RegExp(r'^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$');
-  //String? selectedItem;
-  @override
-  String? selectedItem = 'User';
+  final emailRegex = RegExp(r"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
+
+
+
+  getCategory() async {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('admin')
+        .where('email', isEqualTo: emailcontroller.text)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      var category = querySnapshot.docs.first.data()['category'];
+      print(category);
+      print("================================");
+      return category;
+    } else {
+      return null;
+    }
+  }
+
+
 
   signin() async {
     if (formkey.currentState!.validate()) {
@@ -33,14 +51,10 @@ class _LoginState extends State<Login> {
             .signInWithEmailAndPassword(
           email: emailcontroller.text,
           password: passwordcontroller.text,);
-
-
         setState(() {
           isLoading = true;
         });
-
         return userCredential;
-
 
       } on FirebaseAuthException catch (e) {
         if (e.code == 'invalid-email') {
@@ -243,22 +257,42 @@ class _LoginState extends State<Login> {
                 isLoading: isLoading,
 
                 function:  () async {
-
                   setState(() {
-                    isLoading =  true;
+                    isLoading = true;
                   });
 
                   var user = await signin();
-                  if (user != null) {
-                    setState(() {
-                      isLoading =  false;
-                    });
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) => AdminHome(),));
+                  var category = await getCategory();
 
+                  if (user != null ) {
+                    if(category == "admin"){
+                      setState(() {
+                        isLoading = false;
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) => AdminHome(),));
+                      });
+                    } else{
+                      setState(() {
+                        isLoading = false;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(backgroundColor: Colors.black38,
+                              padding: EdgeInsets.symmetric(vertical: 18),
+                              content: Text(" Access  rejected, you must have an admin account to login ",
+                                style: TextStyle(fontSize: 15),)),);
+                      });
+                    }
+
+                  }else{
+                    setState(() {
+                      isLoading = false;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(backgroundColor: Colors.black38,
+                            padding: EdgeInsets.symmetric(vertical: 18),
+                            content: Text("  please Enter a valid username and password  ",
+                              style: TextStyle(fontSize: 15),)),);
+                    });
                   }
                 },
-
               ),
             ],
           ),

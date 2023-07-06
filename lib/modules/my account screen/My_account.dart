@@ -136,30 +136,30 @@ class _MyAccountState extends State<MyAccount> {
                   },
                 ),
 
-                Row(
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        leading: const Icon(Icons.notification_important),
-                        title: const Text('Notifications',
-                          style: TextStyle(
-                              fontSize: 17
-                          ),
-
-                        ),
-
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 40.0),
-                      child: Switch(onChanged: (bool value) {  }, value: true, activeColor: app_color(),),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: ListTile(
+                //         leading: const Icon(Icons.notification_important),
+                //         title: const Text('Notifications',
+                //           style: TextStyle(
+                //               fontSize: 17
+                //           ),
+                //
+                //         ),
+                //
+                //         onTap: () {
+                //           Navigator.pop(context);
+                //         },
+                //
+                //       ),
+                //     ),
+                //     Padding(
+                //       padding: const EdgeInsets.only(right: 40.0),
+                //       child: Switch(onChanged: (bool value) {  }, value: true, activeColor: app_color(),),
+                //     ),
+                //   ],
+                // ),
 
                 ListTile(
                   leading: const Icon(Icons.lock),
@@ -380,21 +380,21 @@ class _MyAccountState extends State<MyAccount> {
             ),
 
 
-          Padding(
-            padding: EdgeInsets.only(bottom: 25.0),
-            child: FutureBuilder(
-              future: getuserinfo(),
-              builder: (_, AsyncSnapshot snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                // تعيين النص المستلم من قاعدة البيانات في حقل Textformfield
-                emailController.text = snapshot.data['email'].toString();
-                return TextFormField(
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: FutureBuilder(
+                        future: getuserinfo(),
+                        builder: (_, AsyncSnapshot snapshot) {
+                          if(snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          }
 
-                  controller: emailController,
-                  enabled: false,
-                  decoration: InputDecoration(
+                          emailController.text = snapshot.data['email'].toString();
+                          return TextFormField(
+
+                            controller: emailController,
+                            enabled: false,
+                            decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: BorderSide(
