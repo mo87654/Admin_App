@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
-import '../../shared/component/components.dart';
+import '../../shared/component/vars_methods.dart';
 import '../my account screen/My_account.dart';
 class AdminDriversData extends StatefulWidget{
   AdminDriversData({
@@ -131,7 +131,7 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                                   width: 7,
                                 ),
                                 Text(
-                                  'Delete\nStudent',
+                                  'Delete\nDriver',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -142,7 +142,12 @@ class _AdminDriversDataState extends State<AdminDriversData> {
                               ],
                             ),
                             onPressed: (){
-
+                              confirmationMessage(
+                                  task: 'Are you sure you want to delete this driver',
+                                  collection: 'Drivers',
+                                  context: context,
+                                  id: id
+                              );
                             }
                         ),
                       ),
