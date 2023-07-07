@@ -93,32 +93,35 @@ class _AdminHomeState extends State<AdminHome> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 100,
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
-              //color: Colors.indigo,
-              //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
-              decoration: BoxDecoration(
-                  color: app_color() ,
-                  borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Container(
+                height: 100,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
+                //color: Colors.indigo,
+                //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
+                decoration: BoxDecoration(
+                    color: app_color() ,
+                    borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+
+                ),
+
+                //margin: EdgeInsets.all(50),
+                // margin: EdgeInsets.all(20),
+                child: Text (
+
+                    textAlign: TextAlign.center ,
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontStyle:FontStyle.normal ,
+                        color: Colors.white
+                    ),
+
+                    'Students'
+                ),
 
               ),
-
-              //margin: EdgeInsets.all(50),
-              // margin: EdgeInsets.all(20),
-              child: Text (
-
-                  textAlign: TextAlign.center ,
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontStyle:FontStyle.normal ,
-                      color: Colors.white
-                  ),
-
-                  'Students'
-              ),
-
             ),
             Row(
               children: [
@@ -202,32 +205,35 @@ class _AdminHomeState extends State<AdminHome> {
 
 
             ),
-            Container(
-              height: 100,
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
-              //color: Colors.indigo,
-              //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
-              decoration: BoxDecoration(
-                  color: app_color(),
-                  borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Container(
+                height: 100,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
+                //color: Colors.indigo,
+                //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
+                decoration: BoxDecoration(
+                    color: app_color(),
+                    borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+
+                ),
+
+                //margin: EdgeInsets.all(50),
+                // margin: EdgeInsets.all(20),
+                child: Text (
+
+                    textAlign: TextAlign.center ,
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontStyle:FontStyle.normal ,
+                        color: Colors.white
+                    ),
+
+                    'Drivers'
+                ),
 
               ),
-
-              //margin: EdgeInsets.all(50),
-              // margin: EdgeInsets.all(20),
-              child: Text (
-
-                  textAlign: TextAlign.center ,
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontStyle:FontStyle.normal ,
-                      color: Colors.white
-                  ),
-
-                  'Drivers'
-              ),
-
             ),
             Row(
               children: [
@@ -311,32 +317,35 @@ class _AdminHomeState extends State<AdminHome> {
 
 
             ),
-            Container(
-              height: 100,
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
-              //color: Colors.indigo,
-              //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
-              decoration: BoxDecoration(
-                  color: app_color(),
-                  borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Container(
+                height: 100,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
+                //color: Colors.indigo,
+                //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
+                decoration: BoxDecoration(
+                    color: app_color(),
+                    borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+
+                ),
+
+                //margin: EdgeInsets.all(50),
+                // margin: EdgeInsets.all(20),
+                child: Text (
+
+                    textAlign: TextAlign.center ,
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontStyle:FontStyle.normal ,
+                        color: Colors.white
+                    ),
+
+                    'Buses'
+                ),
 
               ),
-
-              //margin: EdgeInsets.all(50),
-              // margin: EdgeInsets.all(20),
-              child: Text (
-
-                  textAlign: TextAlign.center ,
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontStyle:FontStyle.normal ,
-                      color: Colors.white
-                  ),
-
-                  'Buses'
-              ),
-
             ),
             Row(
               children: [
