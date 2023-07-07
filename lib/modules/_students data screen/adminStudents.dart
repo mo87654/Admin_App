@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../shared/component/colors.dart';
 import '../../shared/component/buttons.dart';
-import '../../shared/component/components.dart';
+import '../../shared/component/vars_methods.dart';
 import '../my account screen/My_account.dart';
 class AdminStudentsData extends StatefulWidget{
   AdminStudentsData({
@@ -26,36 +26,6 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
       getID();
     }
   }
-
-  var id;
-  List docData= [];
-
-  getID() async {
-    docData.clear();
-     var collId = FirebaseFirestore.instance.collection('Students');
-     await collId.where('name', isEqualTo: name).get()
-         .then((value) {
-       value.docs.forEach((element) {
-         docData.add(element.data());
-         id = element.id;
-       });
-       assignData();
-     });
-  }
-  assignData(){
-    namecontroller.text = docData[0]['name'];
-    idcontroller.text = docData[0]['id'];
-    genderSelectedItem= docData[0]['gender'];
-    emailcontroller.text= docData[0]['email'];
-    addresscontroller.text= docData[0]['address'];
-    tele_numcontroller.text= docData[0]['tele-num'];
-    gradcontroller.text= docData[0]['grad'];
-    mac_addcontroller.text= docData[0]['MAC-address'];
-    busNumSelectedItem= docData[0]['Bus_number'];
-    setState(() {});
-  }
-
-
   var namecontroller = TextEditingController();
   var idcontroller = TextEditingController();
   var emailcontroller = TextEditingController();
@@ -64,6 +34,9 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
   var tele_numcontroller = TextEditingController();
   var gradcontroller = TextEditingController();
   var mac_addcontroller = TextEditingController();
+
+  var id;
+  List docData= [];
   bool showpassword = true;
   var formkey = GlobalKey<FormState>();
   String? genderSelectedItem;
@@ -153,7 +126,12 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
                               ],
                             ),
                             onPressed: (){
-
+                              confirmationMessage(
+                                  task: 'Are you sure you want to delete this student',
+                                  collection: 'Students',
+                                  context: context,
+                                  id: id
+                              );
                             }
                         ),
                       ),
@@ -692,4 +670,32 @@ class _AdminStudentsDataState extends State<AdminStudentsData> {
 
     );
   }
+
+  getID() async {
+    docData.clear();
+    var collId = FirebaseFirestore.instance.collection('Students');
+    await collId.where('name', isEqualTo: name).get()
+        .then((value) {
+      value.docs.forEach((element) {
+        docData.add(element.data());
+        id = element.id;
+      });
+      assignData();
+    });
+  }
+
+  assignData(){
+    namecontroller.text = docData[0]['name'];
+    idcontroller.text = docData[0]['id'];
+    genderSelectedItem= docData[0]['gender'];
+    emailcontroller.text= docData[0]['email'];
+    addresscontroller.text= docData[0]['address'];
+    tele_numcontroller.text= docData[0]['tele-num'];
+    gradcontroller.text= docData[0]['grad'];
+    mac_addcontroller.text= docData[0]['MAC-address'];
+    busNumSelectedItem= docData[0]['Bus_number'];
+    setState(() {});
+  }
+
+
 }
