@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../shared/component/buttons.dart';
 import '../login screen/login.dart';
 
 class gmailMessage extends StatelessWidget {
@@ -79,47 +78,47 @@ class gmailMessage extends StatelessWidget {
                     height: height * .85 * .13,
                   ),
 
-                  appButton(
-                    
-                    buttonColor:  Color(0xff818181),
-                    text: 'Go to Gmail',
-
-                    function: (){
-                      launchGmail();
-                    },
-                    // isIcon: true,
-                    // theIcon: const Icon(Icons.mail,color: Colors.orange),
-
-                  ),
-                  // Container(
-                  //   height: 45,
-                  //   width: double.infinity,
-                  //   padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
+                  // appButton(
                   //
-                  //   child: MaterialButton(
-                  //     onPressed: (){
-                  //       launchGmail();
-                  //     },
-                  //     child:Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         Text(
-                  //           'go to Gmail',
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 17,
-                  //           ),
-                  //         ),
-                  //         SizedBox(width: 10,),
-                  //         Icon(Icons.mail,color: Colors.orange)
-                  //       ],
-                  //     ),
-                  //     color: Color(0xff014EB8),
-                  //     shape:RoundedRectangleBorder (
-                  //       borderRadius: BorderRadius.circular (10.0), ),
-                  //   ),
+                  //   buttonColor:  Color(0xff818181),
+                  //   text: 'Go to Gmail',
+                  //
+                  //   function: (){
+                  //     launchGmail();
+                  //   },
+                  //   // isIcon: true,
+                  //   // theIcon: const Icon(Icons.mail,color: Colors.orange),
                   //
                   // ),
+                  Container(
+                    height: 45,
+                    width: double.infinity,
+                    padding: const EdgeInsetsDirectional.only(start: 20,end: 20),
+
+                    child: MaterialButton(
+                      onPressed: (){
+                        launchGmail();
+                      },
+                      child:Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'go to Gmail',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Icon(Icons.mail,color: Colors.orange)
+                        ],
+                      ),
+                      color: Color(0xff4d6aaa),
+                      shape:RoundedRectangleBorder (
+                        borderRadius: BorderRadius.circular (10.0), ),
+                    ),
+
+                  ),
                   SizedBox(
                     height: 50,
                   ),
