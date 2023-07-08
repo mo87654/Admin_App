@@ -38,7 +38,7 @@ class _MyAccountState extends State<MyAccount> {
   }
   final User =FirebaseAuth.instance.currentUser!;
 
-  Future<Object> getuserinfo() async {
+  Future<Object> getuserinfo1() async {
     final CollectionReference users = FirebaseFirestore.instance.collection('admin');
     final String uid = User.uid;
     final result = await  users.doc(uid).get();
@@ -79,7 +79,7 @@ class _MyAccountState extends State<MyAccount> {
       print(image64);
     }
   }
-  void deletePhoto() async {
+  void deletePhoto1() async {
     setState(() {
       _imagepath = null;
     });
@@ -138,7 +138,7 @@ class _MyAccountState extends State<MyAccount> {
                     },
                   ),
                   title: FutureBuilder(
-                    future: getuserinfo(),
+                    future: getuserinfo1(),
                     builder: (_ , AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
@@ -154,7 +154,7 @@ class _MyAccountState extends State<MyAccount> {
                     },
                   ),
                   subtitle:  FutureBuilder(
-                    future: getuserinfo(),
+                    future: getuserinfo1(),
                     builder: (_ , AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
@@ -395,7 +395,7 @@ class _MyAccountState extends State<MyAccount> {
               Padding(
               padding: EdgeInsets.only(bottom: 25.0),
               child:FutureBuilder(
-                future: getuserinfo(),
+                future: getuserinfo1(),
                 builder: (_, AsyncSnapshot snapshot) {
                   if(snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -432,7 +432,7 @@ class _MyAccountState extends State<MyAccount> {
                     Padding(
                       padding: EdgeInsets.only(bottom: 25.0),
                       child: FutureBuilder(
-                        future: getuserinfo(),
+                        future: getuserinfo1(),
                         builder: (_, AsyncSnapshot snapshot) {
                           if(snapshot.connectionState == ConnectionState.waiting) {
                             return Center(child: CircularProgressIndicator());
@@ -546,7 +546,7 @@ class _MyAccountState extends State<MyAccount> {
                     color: Colors.black,
                   ),
                   onPressed: () {
-                    deletePhoto();
+                    deletePhoto1();
                   },
                   label: const Text("delete",
                     style: TextStyle(
