@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../shared/component/colors.dart';
-import '../../shared/component/components.dart';
+import '../../shared/component/vars_methods.dart';
 
 import '../_buses data screen/adminBuses.dart';
 import '../_drivers data screen/adminDrivers.dart';
@@ -24,7 +24,7 @@ class _AdminHomeState extends State<AdminHome> {
   List names=[];
   List busIDs = [];
   List busDriver = [];
-  getNames(String collection)async{
+  Future getNames(String collection)async{
     names.clear();
     var dataref = FirebaseFirestore.instance.collection(collection);
     var response = await dataref.get();
@@ -33,6 +33,7 @@ class _AdminHomeState extends State<AdminHome> {
         names.add(element.data()['name']);
       });
     });
+    return null;
   }
   getBusId()async{
     busIDs.clear();
@@ -61,12 +62,8 @@ class _AdminHomeState extends State<AdminHome> {
         );
       }
     });
-    getBusNum();
   }
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar:AppBar(
         backgroundColor: app_color(),
@@ -90,71 +87,77 @@ class _AdminHomeState extends State<AdminHome> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Container(
-                height: 100,
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
-                //color: Colors.indigo,
-                //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
-                decoration: BoxDecoration(
-                    color: app_color() ,
-                    borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
-
-                ),
-
-                //margin: EdgeInsets.all(50),
-                // margin: EdgeInsets.all(20),
-                child: Text (
-
-                    textAlign: TextAlign.center ,
-                    style: TextStyle(
-                        fontSize: 40,
-                        fontStyle:FontStyle.normal ,
-                        color: Colors.white
-                    ),
-
-                    'Students'
-                ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 130,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 20 , left: 40 , right: 40),
+              //color: Colors.indigo,
+              //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
+              decoration: BoxDecoration(
+                  color: app_color() ,
+                  borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
 
               ),
+
+              //margin: EdgeInsets.all(50),
+              // margin: EdgeInsets.all(20),
+              child: Text (
+
+                  textAlign: TextAlign.center ,
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontStyle:FontStyle.normal ,
+                      color: Colors.white
+                  ),
+
+                  'Students'
+              ),
+
             ),
             Row(
               children: [
                 Expanded(
                   child: Container(
-                      width: 159,
+                      // width: 159,
                       decoration: BoxDecoration(
                           color: app_color(),
                           borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10) )
                       ),
 
                       //alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(top: 2, left: 20,right: 1 ),
+                      margin: EdgeInsets.only(top: 2, left: 40,right: 1 ),
 
                       //padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
 
                       //color: Colors.indigo,
                       child:  MaterialButton(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                                Icons.add_box
-                                ,color: Colors.white),
-
+                              Icons.add_box,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text(
-
                                 "ADD",
-                                style: TextStyle(color: Colors.white)),
-
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                )
+                            ),
                           ],
                         ),
                         onPressed: () {
+                          getBusNum();
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context) => AdminStudentsData()
@@ -167,106 +170,116 @@ class _AdminHomeState extends State<AdminHome> {
 
                 Expanded(
                   child: Container(
-                      width: 159,
+                      // width: 159,
                       decoration: BoxDecoration(
                           color: app_color(),
                           borderRadius: BorderRadius.only(bottomRight:Radius.circular(10) )
-
                       ),
-
                       //alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(top: 2,  right: 20,left: 1),
-
+                      margin: EdgeInsets.only(top: 2,  right: 40,left: 1),
                       //padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       //color: Colors.indigo,
                       child:  MaterialButton(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.mode,color: Colors.white),
-
+                            Icon(
+                              Icons.mode,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text("MODIFY",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18
+                              ),
                               textAlign: TextAlign.center,
                             ),
 
                           ],
                         ),
                         onPressed: () {
-                          getNames('Students');
-                          showSearch(context: context, delegate: Search(mainData: names,pageNum: 0));
+                          getNames('Students').then((value){
+                            showSearch(
+                                context: context,
+                                delegate: Search(
+                                    mainData: names,
+                                    pageNum: 0
+                                )
+                            );
+                            getBusNum();
+                          });
                         },
                       )
                   ),
                 ),
-
-
               ],
-
-
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Container(
-                height: 100,
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
-                //color: Colors.indigo,
-                //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
-                decoration: BoxDecoration(
-                    color: app_color(),
-                    borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
-
-                ),
-
-                //margin: EdgeInsets.all(50),
-                // margin: EdgeInsets.all(20),
-                child: Text (
-
-                    textAlign: TextAlign.center ,
-                    style: TextStyle(
-                        fontSize: 40,
-                        fontStyle:FontStyle.normal ,
-                        color: Colors.white
-                    ),
-
-                    'Drivers'
-                ),
-
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 130,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 20 , left: 40 , right: 40),
+              //color: Colors.indigo,
+              //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
+              decoration: BoxDecoration(
+                  color: app_color(),
+                  borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+              ),
+              //margin: EdgeInsets.all(50),
+              // margin: EdgeInsets.all(20),
+              child: Text (
+                  textAlign: TextAlign.center ,
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontStyle:FontStyle.normal ,
+                      color: Colors.white
+                  ),
+                  'Drivers'
               ),
             ),
             Row(
               children: [
                 Expanded(
                   child: Container(
-                      width: 159,
+                      // width: 159,
                       decoration: BoxDecoration(
                           color: app_color(),
                           borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10) )
-
                       ),
-
                       //alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(top: 2, left: 20,right: 1 ),
-
+                      margin: EdgeInsets.only(top: 2, left: 40,right: 1 ),
                       //padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-
                       //color: Colors.indigo,
                       child:  MaterialButton(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                                Icons.add_box
-                                ,color: Colors.white),
-
+                              Icons.add_box
+                              ,color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text(
-
-                                "ADD",style: TextStyle(color: Colors.white)),
-
+                                "ADD",style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18
+                            )
+                            ),
                           ],
                         ),
                         onPressed: () {
+                          getBusNum();
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context) => AdminDriversData()
@@ -279,103 +292,112 @@ class _AdminHomeState extends State<AdminHome> {
 
                 Expanded(
                   child: Container(
-                      width: 159,
+                      // width: 159,
                       decoration: BoxDecoration(
                           color: app_color(),
                           borderRadius: BorderRadius.only(bottomRight:Radius.circular(10) )
-
                       ),
-
                       //alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(top: 2,  right: 20,left: 1),
-
+                      margin: EdgeInsets.only(top: 2,  right: 40,left: 1),
                       //padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       //color: Colors.indigo,
                       child:  MaterialButton(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.mode,color: Colors.white),
-
+                            Icon(
+                              Icons.mode,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text("MODIFY",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18
+                              ),
                               textAlign: TextAlign.center,
                             ),
-
                           ],
                         ),
                         onPressed: () {
-                          getNames('Drivers');
-                          showSearch(context: context, delegate: Search(mainData: names,pageNum: 1));
+                          getNames('Drivers').then((value){
+                            showSearch(
+                                context: context,
+                                delegate: Search(
+                                    mainData: names,
+                                    pageNum: 1
+                                )
+                            );
+                            getBusNum();
+                          });
                         },
                       )
                   ),
                 ),
-
-
               ],
-
-
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50.0),
-              child: Container(
-                height: 100,
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 20 , left: 20 , right: 20),
-                //color: Colors.indigo,
-                //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
-                decoration: BoxDecoration(
-                    color: app_color(),
-                    borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
-
-                ),
-
-                //margin: EdgeInsets.all(50),
-                // margin: EdgeInsets.all(20),
-                child: Text (
-
-                    textAlign: TextAlign.center ,
-                    style: TextStyle(
-                        fontSize: 40,
-                        fontStyle:FontStyle.normal ,
-                        color: Colors.white
-                    ),
-
-                    'Buses'
-                ),
-
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 130,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 20 , left: 40 , right: 40),
+              //color: Colors.indigo,
+              //padding: EdgeInsets.fromLTRB(0, 20, 140, 20),
+              decoration: BoxDecoration(
+                  color: app_color(),
+                  borderRadius: BorderRadius.only(topRight:Radius.circular(10) ,topLeft:Radius.circular(10) )
+              ),
+              //margin: EdgeInsets.all(50),
+              // margin: EdgeInsets.all(20),
+              child: Text (
+                  textAlign: TextAlign.center ,
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontStyle:FontStyle.normal ,
+                      color: Colors.white
+                  ),
+                  'Buses'
               ),
             ),
             Row(
               children: [
                 Expanded(
                   child: Container(
-                      width: 159,
+                      // width: 159,
                       decoration: BoxDecoration(
                           color: app_color(),
                           borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10) )
-
                       ),
-
                       //alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(top: 2, left: 20,right: 1 ),
-
+                      margin: EdgeInsets.only(top: 2, left: 40,right: 1 ),
                       //padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-
                       //color: Colors.indigo,
                       child:  MaterialButton(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                                Icons.add_box
-                                ,color: Colors.white),
-
+                              Icons.add_box,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text(
-
-                                "ADD",style: TextStyle(color: Colors.white)),
-
+                                "ADD",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                            )
+                            ),
                           ],
                         ),
                         onPressed: () {
@@ -391,35 +413,42 @@ class _AdminHomeState extends State<AdminHome> {
 
                 Expanded(
                   child: Container(
-                      width: 159,
+                      // width: 159,
                       decoration: BoxDecoration(
                           color: app_color(),
                           borderRadius: BorderRadius.only(bottomRight:Radius.circular(10) )
-
                       ),
-
                       //alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(top: 2,  right: 20,left: 1),
-
+                      margin: EdgeInsets.only(top: 2,  right: 40,left: 1),
                       //padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                       //color: Colors.indigo,
                       child:  MaterialButton(
+                        padding: EdgeInsets.only(top: 15, bottom: 15),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.mode,color: Colors.white),
-
+                            Icon(
+                              Icons.mode,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text("MODIFY",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18
+                              ),
                               textAlign: TextAlign.center,
                             ),
-
                           ],
                         ),
                         onPressed: () {
                           getBusId();
                           showSearch(
-                              context: context, delegate: Search(
+                              context: context,
+                              delegate: Search(
                               mainData: busIDs,
                               subData: busDriver,
                               pageNum: 2
@@ -429,15 +458,8 @@ class _AdminHomeState extends State<AdminHome> {
                       )
                   ),
                 ),
-
-
               ],
-
-
             ),
-
-
-
           ],
         ),
       ),
@@ -451,8 +473,8 @@ class _AdminHomeState extends State<AdminHome> {
     get().then((value) {
       value.docs.forEach((element) {
         busNum.add(element.data()['Bus_number']);
-        print(busNum);
       });
     });
+    print(busNum);
   }
 }
