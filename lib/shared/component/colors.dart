@@ -1,5 +1,20 @@
 import 'dart:ui';
 
-Color app_color (){
-  return Color(0xff4d6aaa);
+import 'package:flutter/material.dart';
+
+Color? app_color (){
+  return Colors.blue[900];
+  // return Colors.blue[900];
+}
+
+Color? buttonsColor (){
+  // return Colors.white;
+  // return Colors.black;
+  // return Colors.teal;
+  return Colors.blue[900];
+}
+
+Color? containerColor (){
+  // return Colors.orange;
+  return Colors.blue[800];
 }
